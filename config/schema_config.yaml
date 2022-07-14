@@ -51,6 +51,8 @@ Chromosome:
   represented_as: node
   preferred_id: chr
   label_in_input: Chromosome
+  properties:
+    taxid: str
 
 DiseaseOrPhenotypicFeature:
   represented_as: node
@@ -346,63 +348,72 @@ ProteinToDiseaseAssociation: # TODO multi input
   ]
 
 VariantToDiseaseAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: VariantToDiseaseAssociation
   preferred_id: custom
   source: ClinicallyRelevant.SequenceVariant
   target: Disease
   label_in_input: ASSOCIATED_WITH_Clinically_relevant_variant_Disease
 
 MetaboliteToDiseaseAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: MetaboliteToDiseaseAssociation
   preferred_id: custom
   source: Metabolite
   target: Disease
   label_in_input: ASSOCIATED_WITH_Metabolite_Disease
 
 ProteinToBiologicalProcessAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ProteinToBiologicalProcessAssociation
   preferred_id: custom
   source: Protein
   target: BiologicalProcess
   label_in_input: ASSOCIATED_WITH_Protein_Biological_process
 
 ProteinToExpressionSiteAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ProteinToExpressionSiteAssociation
   preferred_id: custom
   source: Protein
   target: GrossAnatomicalStructure
   label_in_input: ASSOCIATED_WITH_Protein_Tissue
 
 MetaboliteToTissueAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: MetaboliteToTissueAssociation
   preferred_id: custom
   source: Metabolite
   target: Tissue
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
 MetaboliteToTissueAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: MetaboliteToTissueAssociation
   preferred_id: custom
   source: Metabolite
   target: Tissue
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
 MacromolecularMachineToBiologicalProcessAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: MacromolecularMachineToBiologicalProcessAssociation
   preferred_id: custom
   source: MacromolecularComplexMixin
   target: BiologicalProcess
   label_in_input: ASSOCIATED_WITH_Complex_Biological_process
 
 ProteinToMolecularActivityAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ProteinToMolecularActivityAssociation
   preferred_id: custom
   source: Protein
   target: MolecularActivity
   label_in_input: ASSOCIATED_WITH_Protein_Molecular_function
 
 ProteinToCellularComponentAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ProteinToCellularComponentAssociation
   preferred_id: custom
   source: Protein
   target: CellularComponent
@@ -412,7 +423,8 @@ ProteinToCellularComponentAssociation:
   ]
 
 MetaboliteToProteinAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: MetaboliteToProteinAssociation
   preferred_id: custom
   source: Metabolite
   target: Protein
@@ -426,7 +438,8 @@ PostTranslationalInteraction:
   label_in_input: [COMPILED_INTERACTS_WITH, CURATED_INTERACTS_WITH, ACTS_ON]
 
 PeptideToProteinAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: PeptideToProteinAssociation
   preferred_id: custom
   source: Peptide
   target: Protein
@@ -465,14 +478,16 @@ is_a:
   label_in_input: HAS_PARENT
 
 MetaboliteToPathwayAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: MetaboliteToPathwayAssociation
   preferred_id: custom
   source: Metabolite
   target: Pathway
   label_in_input: ANNOTATED_IN_PATHWAY_Metabolite_Pathway
 
 ProteinToPathwayAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ProteinToPathwayAssociation
   preferred_id: custom
   source: Protein
   target: Pathway
@@ -494,17 +509,17 @@ TranscriptToProteinRelationship:
   target: Protein
   label_in_input: TRANSLATED_INTO_Transcript_Protein
 
-TranscriptToGeneRelationship: # TODO how to invert?
+GeneToTranscriptRelationship: 
   represented_as: edge
-  label_as_edge: TranscriptToGeneRelationship
+  label_as_edge: GeneToTranscriptRelationship
   preferred_id: custom
-  source: Transcript
-  target: Gene
+  source: Gene
+  target: Transcript
   label_in_input: TRANSCRIBED_INTO
 
 ProteinToAminoAcidAssociation:
   represented_as: edge
-  label_as_edge: HAS_SEQUENCE
+  label_as_edge: ProteinToAminoAcidAssociation
   preferred_id: custom
   source: Protein
   target: AminoAcidSequence
@@ -512,7 +527,7 @@ ProteinToAminoAcidAssociation:
 
 ProteinToProteinDomainAssociation:
   represented_as: edge
-  label_as_edge: FOUND_IN_PROTEIN
+  label_as_edge: ProteinToProteinDomainAssociation
   preferred_id: custom
   source: Protein
   target: ProteinDomain
@@ -520,7 +535,7 @@ ProteinToProteinDomainAssociation:
 
 ProteinToPostTranslationalModificationAssociation:
   represented_as: edge
-  label_as_edge: HAS_MODIFICATION
+  label_as_edge: ProteinToPostTranslationalModificationAssociation
   preferred_id: custom
   source: Protein
   target: PostTranslationalModification
@@ -530,7 +545,7 @@ ProteinToPostTranslationalModificationAssociation:
 
 PeptideToPostTranslationalModificationAssociation:
   represented_as: edge
-  label_as_edge: HAS_MODIFICATION
+  label_as_edge: PeptideToPostTranslationalModificationAssociation
   preferred_id: custom
   source: Protein
   target: PostTranslationalModification
@@ -545,98 +560,112 @@ SequenceVariantToPostTranslationalInteractionAssociation:
   label_in_input: CURATED_AFFECTS_INTERACTION_WITH
 
 ProteinToMacromolecularComplexAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ProteinToMacromolecularComplexAssociation
   preferred_id: custom
   source: Protein
   target: MacromolecularComplexMixin
   label_in_input: IS_SUBUNIT_OF
 
 DatasetToClinicalFindingAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: DatasetToClinicalFindingAssociation
   preferred_id: custom
   source: Dataset
   target: ClinicalFinding
   label_in_input: STUDIES_TRAIT
 
 DatasetToArticleAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: DatasetToArticleAssociation
   preferred_id: custom
   source: Dataset
   target: Article
   label_in_input: PUBLISHED_IN
 
 ClinicalFindingToDiseaseAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ClinicalFindingToDiseaseAssociation
   preferred_id: custom
   source: ClinicalFinding
   target: Disease
   label_in_input: MAPS_TO_Experimental_factor_Disease
 
 ClinicalFindingToPhenotypicFeatureAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ClinicalFindingToPhenotypicFeatureAssociation
   preferred_id: custom
   source: ClinicalFinding
   target: PhenotypicFeature
   label_in_input: MAPS_TO_Experimental_factor_Phenotype
 
 ClinicalFindingToDiseaseOrPhenotypicFeatureAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ClinicalFindingToDiseaseOrPhenotypicFeatureAssociation
   preferred_id: custom
   source: ClinicalFinding
   target: DiseaseOrPhenotypicFeature
   label_in_input: MAPS_TO_Experimental_factor_Clinical_variable
 
 FoodToMetaboliteAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: FoodToMetaboliteAssociation
   preferred_id: custom
   source: Food
   target: Metabolite
   label_in_input: HAS_CONTENT
 
 ProteinAsAMarkerOfDiseaseAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ProteinAsAMarkerOfDiseaseAssociation
   preferred_id: custom
   source: Protein
   target: Disease
   label_in_input: IS_BIOMARKER_OF_DISEASE
 
 AgentToDiseaseAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: AgentToDiseaseAssociation
   preferred_id: custom
   source: Project.Agent
   target: Disease
   label_in_input: STUDIES_DISEASE
 
 AgentToTissueAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: AgentToTissueAssociation
   preferred_id: custom
   source: Project.Agent
   target: Tissue
   label_in_input: STUDIES_TISSUE
 
 ContributorAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: ContributorAssociation
   preferred_id: custom
   source: User.Agent
   target: Tissue
   label_in_input: PARTICIPATES_IN
 
 LeadContributorAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: LeadContributorAssociation
   preferred_id: custom
   source: User.Agent
   target: Tissue
   label_in_input: IS_RESPONSIBLE
 
 AgentToAgentAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: AgentToAgentAssociation
   preferred_id: custom
   source: Project.Agent
   target: Project.Agent
   label_in_input: FOLLOWS_UP_PROJECT
 
 AgentToDiseaseOrPhenotypicFeatureAssociation:
-  represented_as: node
+  represented_as: edge
+  label_as_edge: AgentToDiseaseOrPhenotypicFeatureAssociation
   preferred_id: custom
   source: Project.Agent
   target: DiseaseOrPhenotypicFeature

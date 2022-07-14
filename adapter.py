@@ -66,7 +66,7 @@ class BioCypherAdapter:
         # remove Timepoint from node_labels
         node_labels.remove("Timepoint")
 
-        node_labels = ["Chromosome"]
+        # node_labels = ["Chromosome"]
 
         for label in node_labels:
             with self.driver.session() as session:
@@ -185,19 +185,19 @@ class BioCypherAdapter:
             label: label of the node type
         """
 
-        nodes = []
-        with self.driver.session() as session:
-            results = session.read_transaction(get_nodes_tx, id_batch)
+        def node_gen():
+            with self.driver.session() as session:
+                results = session.read_transaction(get_nodes_tx, id_batch)
 
-            for res in results:
+                for res in results:
 
-                _id = _process_node_id(res["n"]["id"])
-                _type = label
-                _props = res["n"]
-                nodes.append((_id, _type, _props))
+                    _id = _process_node_id(res["n"]["id"], label)
+                    _type = label
+                    _props = res["n"]
+                    yield (_id, _type, _props)
 
         self.bcy.write_nodes(
-            nodes=nodes,
+            nodes=node_gen(),
             db_name=self.db_name,
         )
 
@@ -217,56 +217,58 @@ class BioCypherAdapter:
             tar: target node label
         """
 
-        edges = []
-        with self.driver.session() as session:
-            rels = session.read_transaction(get_rels_tx, id_batch)
+        def edge_gen():
+            with self.driver.session() as session:
+                results = session.read_transaction(get_rels_tx, id_batch)
 
-            for rel in rels:
+                for res in results:
 
-                # extract relevant id
-                _src = _process_node_id(rel["n"]["id"], src)
-                _tar = _process_node_id(rel["m"]["id"], tar)
+                    # extract relevant id
+                    _src = _process_node_id(res["n"]["id"], src)
+                    _tar = _process_node_id(res["m"]["id"], tar)
 
-                # split some relationship types
-                if typ in [
-                    "MENTIONED_IN_PUBLICATION",
-                    "ASSOCIATED_WITH",
-                    "ANNOTATED_IN_PATHWAY",
-                    "MAPS_TO",
-                    "VARIANT_FOUND_IN_GENE",
-                    "TRANSLATED_INTO",
-                    "HAS_MODIFIED_SITE",
-                ]:
-                    _type = "_".join([typ, src, tar])
-                else:
-                    _type = typ
-                _props = {}
+                    # split some relationship types
+                    if typ in [
+                        "MENTIONED_IN_PUBLICATION",
+                        "ASSOCIATED_WITH",
+                        "ANNOTATED_IN_PATHWAY",
+                        "MAPS_TO",
+                        "VARIANT_FOUND_IN_GENE",
+                        "TRANSLATED_INTO",
+                        "HAS_MODIFIED_SITE",
+                    ]:
+                        _type = "_".join([typ, src, tar])
+                    else:
+                        _type = typ
+                    _props = {}
 
-                # add properties
-                if typ in [
-                    "ACTS_ON",
-                    "COMPILED_INTERACTS_WITH",
-                    "CURATED_INTERACTS_WITH",
-                ]:
-                    _props = {"type": typ}
-                elif typ == "IS_BIOMARKER_OF_DISEASE":
-                    props = rel["PROPERTIES(r)"]
-                    _props = {
-                        "age_range": props.get("age_range"),
-                        "age_units": props.get("age_units"),
-                        "assay": props.get("assay"),
-                        "is_routine": props.get("is_routine"),
-                        "is_used_in_clinic": props.get("is_used_in_clinic"),
-                        "normal_range": props.get("normal_range"),
-                        "sex": props.get("sex"),
-                    }
+                    # add properties
+                    if typ in [
+                        "ACTS_ON",
+                        "COMPILED_INTERACTS_WITH",
+                        "CURATED_INTERACTS_WITH",
+                    ]:
+                        _props = {"type": typ}
+                    elif typ == "IS_BIOMARKER_OF_DISEASE":
+                        props = res["PROPERTIES(r)"]
+                        _props = {
+                            "age_range": props.get("age_range"),
+                            "age_units": props.get("age_units"),
+                            "assay": props.get("assay"),
+                            "is_routine": props.get("is_routine"),
+                            "is_used_in_clinic": props.get(
+                                "is_used_in_clinic"
+                            ),
+                            "normal_range": props.get("normal_range"),
+                            "sex": props.get("sex"),
+                        }
 
-                edges.append((_src, _tar, _type, _props))
+                    yield (_src, _tar, _type, _props)
 
-            self.bcy.write_edges(
-                edges=edges,
-                db_name=self.db_name,
-            )
+        self.bcy.write_edges(
+            edges=edge_gen(),
+            db_name=self.db_name,
+        )
 
 
 def get_nodes_tx(tx, ids):
