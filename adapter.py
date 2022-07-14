@@ -66,7 +66,7 @@ class BioCypherAdapter:
         # remove Timepoint from node_labels
         node_labels.remove("Timepoint")
 
-        # node_labels = ["Chromosome"]
+        # node_labels = ["Gene", "Known_variant", "Somatic_mutation"]
 
         for label in node_labels:
             with self.driver.session() as session:
@@ -87,6 +87,12 @@ class BioCypherAdapter:
 
         rel_labels = rel_labels[1:]
         rel_labels = [label.split(",") for label in rel_labels]
+
+        # rel_labels = [
+        #     ("Known_variant", "VARIANT_FOUND_IN_GENE", "Gene"),
+        #     ("Somatic_mutation", "VARIANT_FOUND_IN_GENE", "Gene"),
+        # ]
+        # rel_labels = []
 
         for src, typ, tar in rel_labels:
 
@@ -126,20 +132,18 @@ class BioCypherAdapter:
         id_batch = []
         for record in result:
             # collect in batches
-            if len(id_batch) < self.id_batch_size:
+            id_batch.append(record["id"])
+            if len(id_batch) == self.id_batch_size:
 
-                id_batch.append(record["id"])
-
-                # check if result depleted
-                if result.peek() is None:
-
-                    # write last batch
-                    self._write_nodes(id_batch, label)
-
-            # if full batch, trigger write process
-            else:
+                # if full batch, trigger write process
                 self._write_nodes(id_batch, label)
                 id_batch = []
+
+            # check if result depleted
+            elif result.peek() is None:
+
+                # write last batch
+                self._write_nodes(id_batch, label)
 
     def _get_rel_ids_and_write_batches_tx(
         self,
@@ -311,5 +315,7 @@ def _process_node_id(_id, _type):
         _id = "somatic:" + _id
     elif _type == "Protein":
         _id = "uniprot:" + _id
+    elif _type == "Gene":
+        _id = "hgnc.symbol:" + _id
 
     return _id

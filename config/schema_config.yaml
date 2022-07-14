@@ -283,7 +283,6 @@ Unit:
 ProteinToArticleAssociation:
   is_a: InformationContentEntityToNamedThingAssociation
   represented_as: edge
-  label_as_edge: ProteinToArticleAssociation
   preferred_id: custom
   source: Protein
   target: Article
@@ -292,7 +291,6 @@ ProteinToArticleAssociation:
 ProteinDomainToArticleAssociation:
   is_a: InformationContentEntityToNamedThingAssociation
   represented_as: edge
-  label_as_edge: ProteinDomainToArticleAssociation
   preferred_id: custom
   source: ProteinDomain
   target: Article
@@ -301,7 +299,6 @@ ProteinDomainToArticleAssociation:
 TissueToArticleAssociation:
   is_a: InformationContentEntityToNamedThingAssociation
   represented_as: edge
-  label_as_edge: TissueToArticleAssociation
   preferred_id: custom
   source: Tissue
   target: Article
@@ -310,7 +307,6 @@ TissueToArticleAssociation:
 DiseaseToArticleAssociation:
   is_a: InformationContentEntityToNamedThingAssociation
   represented_as: edge
-  label_as_edge: DiseaseToArticleAssociation
   preferred_id: custom
   source: Disease
   target: Article
@@ -319,13 +315,12 @@ DiseaseToArticleAssociation:
 VariantToProteinAssociation:
   is_a: Association
   represented_as: edge
-  label_as_edge: VariantToProteinAssociation
   preferred_id: custom
   source: Known.SequenceVariant
   target: Protein
   label_in_input: VARIANT_FOUND_IN_PROTEIN
 
-VariantToGeneAssociation: # TODO multi input multi source
+VariantToGeneAssociation: # -> Known... and Somatic...
   represented_as: node
   preferred_id: custom
   source: [Known.SequenceVariant, Somatic.SequenceVariant]
@@ -335,10 +330,9 @@ VariantToGeneAssociation: # TODO multi input multi source
     VARIANT_FOUND_IN_GENE_Somatic_mutation_Gene
   ]
 
-ProteinToDiseaseAssociation: # TODO multi input
+ProteinToDiseaseAssociation:
   is_a: EntityToDiseaseAssociation
   represented_as: edge
-  label_as_edge: ProteinToDiseaseAssociation
   preferred_id: custom
   source: Protein
   target: Disease
@@ -349,7 +343,6 @@ ProteinToDiseaseAssociation: # TODO multi input
 
 VariantToDiseaseAssociation:
   represented_as: edge
-  label_as_edge: VariantToDiseaseAssociation
   preferred_id: custom
   source: ClinicallyRelevant.SequenceVariant
   target: Disease
@@ -357,7 +350,6 @@ VariantToDiseaseAssociation:
 
 MetaboliteToDiseaseAssociation:
   represented_as: edge
-  label_as_edge: MetaboliteToDiseaseAssociation
   preferred_id: custom
   source: Metabolite
   target: Disease
@@ -365,7 +357,6 @@ MetaboliteToDiseaseAssociation:
 
 ProteinToBiologicalProcessAssociation:
   represented_as: edge
-  label_as_edge: ProteinToBiologicalProcessAssociation
   preferred_id: custom
   source: Protein
   target: BiologicalProcess
@@ -373,7 +364,6 @@ ProteinToBiologicalProcessAssociation:
 
 ProteinToExpressionSiteAssociation:
   represented_as: edge
-  label_as_edge: ProteinToExpressionSiteAssociation
   preferred_id: custom
   source: Protein
   target: GrossAnatomicalStructure
@@ -381,7 +371,6 @@ ProteinToExpressionSiteAssociation:
 
 MetaboliteToTissueAssociation:
   represented_as: edge
-  label_as_edge: MetaboliteToTissueAssociation
   preferred_id: custom
   source: Metabolite
   target: Tissue
@@ -389,7 +378,6 @@ MetaboliteToTissueAssociation:
 
 MetaboliteToTissueAssociation:
   represented_as: edge
-  label_as_edge: MetaboliteToTissueAssociation
   preferred_id: custom
   source: Metabolite
   target: Tissue
@@ -397,7 +385,6 @@ MetaboliteToTissueAssociation:
 
 MacromolecularMachineToBiologicalProcessAssociation:
   represented_as: edge
-  label_as_edge: MacromolecularMachineToBiologicalProcessAssociation
   preferred_id: custom
   source: MacromolecularComplexMixin
   target: BiologicalProcess
@@ -405,7 +392,6 @@ MacromolecularMachineToBiologicalProcessAssociation:
 
 ProteinToMolecularActivityAssociation:
   represented_as: edge
-  label_as_edge: ProteinToMolecularActivityAssociation
   preferred_id: custom
   source: Protein
   target: MolecularActivity
@@ -413,7 +399,6 @@ ProteinToMolecularActivityAssociation:
 
 ProteinToCellularComponentAssociation:
   represented_as: edge
-  label_as_edge: ProteinToCellularComponentAssociation
   preferred_id: custom
   source: Protein
   target: CellularComponent
@@ -424,7 +409,6 @@ ProteinToCellularComponentAssociation:
 
 MetaboliteToProteinAssociation:
   represented_as: edge
-  label_as_edge: MetaboliteToProteinAssociation
   preferred_id: custom
   source: Metabolite
   target: Protein
@@ -439,7 +423,6 @@ PostTranslationalInteraction:
 
 PeptideToProteinAssociation:
   represented_as: edge
-  label_as_edge: PeptideToProteinAssociation
   preferred_id: custom
   source: Peptide
   target: Protein
@@ -479,7 +462,6 @@ is_a:
 
 MetaboliteToPathwayAssociation:
   represented_as: edge
-  label_as_edge: MetaboliteToPathwayAssociation
   preferred_id: custom
   source: Metabolite
   target: Pathway
@@ -487,7 +469,6 @@ MetaboliteToPathwayAssociation:
 
 ProteinToPathwayAssociation:
   represented_as: edge
-  label_as_edge: ProteinToPathwayAssociation
   preferred_id: custom
   source: Protein
   target: Pathway
@@ -495,7 +476,6 @@ ProteinToPathwayAssociation:
 
 GeneToGeneProductRelationship:
   represented_as: edge
-  label_as_edge: GeneToGeneProductRelationship
   preferred_id: custom
   source: Gene
   target: Protein
@@ -503,7 +483,6 @@ GeneToGeneProductRelationship:
 
 TranscriptToProteinRelationship:
   represented_as: edge
-  label_as_edge: TranscriptToProteinRelationship
   preferred_id: custom
   source: Transcript
   target: Protein
@@ -511,7 +490,6 @@ TranscriptToProteinRelationship:
 
 GeneToTranscriptRelationship: 
   represented_as: edge
-  label_as_edge: GeneToTranscriptRelationship
   preferred_id: custom
   source: Gene
   target: Transcript
@@ -519,7 +497,6 @@ GeneToTranscriptRelationship:
 
 ProteinToAminoAcidAssociation:
   represented_as: edge
-  label_as_edge: ProteinToAminoAcidAssociation
   preferred_id: custom
   source: Protein
   target: AminoAcidSequence
@@ -527,7 +504,6 @@ ProteinToAminoAcidAssociation:
 
 ProteinToProteinDomainAssociation:
   represented_as: edge
-  label_as_edge: ProteinToProteinDomainAssociation
   preferred_id: custom
   source: Protein
   target: ProteinDomain
@@ -535,7 +511,6 @@ ProteinToProteinDomainAssociation:
 
 ProteinToPostTranslationalModificationAssociation:
   represented_as: edge
-  label_as_edge: ProteinToPostTranslationalModificationAssociation
   preferred_id: custom
   source: Protein
   target: PostTranslationalModification
@@ -545,7 +520,6 @@ ProteinToPostTranslationalModificationAssociation:
 
 PeptideToPostTranslationalModificationAssociation:
   represented_as: edge
-  label_as_edge: PeptideToPostTranslationalModificationAssociation
   preferred_id: custom
   source: Protein
   target: PostTranslationalModification
@@ -561,7 +535,6 @@ SequenceVariantToPostTranslationalInteractionAssociation:
 
 ProteinToMacromolecularComplexAssociation:
   represented_as: edge
-  label_as_edge: ProteinToMacromolecularComplexAssociation
   preferred_id: custom
   source: Protein
   target: MacromolecularComplexMixin
@@ -569,7 +542,6 @@ ProteinToMacromolecularComplexAssociation:
 
 DatasetToClinicalFindingAssociation:
   represented_as: edge
-  label_as_edge: DatasetToClinicalFindingAssociation
   preferred_id: custom
   source: Dataset
   target: ClinicalFinding
@@ -577,7 +549,6 @@ DatasetToClinicalFindingAssociation:
 
 DatasetToArticleAssociation:
   represented_as: edge
-  label_as_edge: DatasetToArticleAssociation
   preferred_id: custom
   source: Dataset
   target: Article
@@ -585,7 +556,6 @@ DatasetToArticleAssociation:
 
 ClinicalFindingToDiseaseAssociation:
   represented_as: edge
-  label_as_edge: ClinicalFindingToDiseaseAssociation
   preferred_id: custom
   source: ClinicalFinding
   target: Disease
@@ -593,7 +563,6 @@ ClinicalFindingToDiseaseAssociation:
 
 ClinicalFindingToPhenotypicFeatureAssociation:
   represented_as: edge
-  label_as_edge: ClinicalFindingToPhenotypicFeatureAssociation
   preferred_id: custom
   source: ClinicalFinding
   target: PhenotypicFeature
@@ -601,7 +570,6 @@ ClinicalFindingToPhenotypicFeatureAssociation:
 
 ClinicalFindingToDiseaseOrPhenotypicFeatureAssociation:
   represented_as: edge
-  label_as_edge: ClinicalFindingToDiseaseOrPhenotypicFeatureAssociation
   preferred_id: custom
   source: ClinicalFinding
   target: DiseaseOrPhenotypicFeature
@@ -609,7 +577,6 @@ ClinicalFindingToDiseaseOrPhenotypicFeatureAssociation:
 
 FoodToMetaboliteAssociation:
   represented_as: edge
-  label_as_edge: FoodToMetaboliteAssociation
   preferred_id: custom
   source: Food
   target: Metabolite
@@ -617,7 +584,6 @@ FoodToMetaboliteAssociation:
 
 ProteinAsAMarkerOfDiseaseAssociation:
   represented_as: edge
-  label_as_edge: ProteinAsAMarkerOfDiseaseAssociation
   preferred_id: custom
   source: Protein
   target: Disease
@@ -625,7 +591,6 @@ ProteinAsAMarkerOfDiseaseAssociation:
 
 AgentToDiseaseAssociation:
   represented_as: edge
-  label_as_edge: AgentToDiseaseAssociation
   preferred_id: custom
   source: Project.Agent
   target: Disease
@@ -633,7 +598,6 @@ AgentToDiseaseAssociation:
 
 AgentToTissueAssociation:
   represented_as: edge
-  label_as_edge: AgentToTissueAssociation
   preferred_id: custom
   source: Project.Agent
   target: Tissue
@@ -641,7 +605,6 @@ AgentToTissueAssociation:
 
 ContributorAssociation:
   represented_as: edge
-  label_as_edge: ContributorAssociation
   preferred_id: custom
   source: User.Agent
   target: Tissue
@@ -649,7 +612,6 @@ ContributorAssociation:
 
 LeadContributorAssociation:
   represented_as: edge
-  label_as_edge: LeadContributorAssociation
   preferred_id: custom
   source: User.Agent
   target: Tissue
@@ -657,7 +619,6 @@ LeadContributorAssociation:
 
 AgentToAgentAssociation:
   represented_as: edge
-  label_as_edge: AgentToAgentAssociation
   preferred_id: custom
   source: Project.Agent
   target: Project.Agent
@@ -665,7 +626,6 @@ AgentToAgentAssociation:
 
 AgentToDiseaseOrPhenotypicFeatureAssociation:
   represented_as: edge
-  label_as_edge: AgentToDiseaseOrPhenotypicFeatureAssociation
   preferred_id: custom
   source: Project.Agent
   target: DiseaseOrPhenotypicFeature
