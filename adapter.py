@@ -18,7 +18,7 @@ class BioCypherAdapter:
         self,
         dirname=None,
         db_name="neo4j",
-        id_batch_size: int = 100000,
+        id_batch_size: int = int(1e6),
         user_schema_config_path="config/schema_config.yaml",
     ):
 
