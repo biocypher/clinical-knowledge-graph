@@ -66,10 +66,12 @@ class BioCypherAdapter:
         # remove Timepoint from node_labels
         node_labels.remove("Timepoint")
 
-        # node_labels = []
+        node_labels = ["Chromosome"]
 
         for label in node_labels:
             with self.driver.session() as session:
+                # writing of one type needs to be completed inside
+                # this session
                 session.read_transaction(
                     self._get_node_ids_and_write_batches_tx, label
                 )
@@ -100,6 +102,8 @@ class BioCypherAdapter:
             ]:
 
                 with self.driver.session() as session:
+                    # writing of one type needs to be completed inside
+                    # this session
                     session.read_transaction(
                         self._get_rel_ids_and_write_batches_tx,
                         src,
@@ -187,7 +191,7 @@ class BioCypherAdapter:
 
             for res in results:
 
-                _id = res["n"]["id"]
+                _id = _process_node_id(res["n"]["id"])
                 _type = label
                 _props = res["n"]
                 nodes.append((_id, _type, _props))
@@ -213,10 +217,10 @@ class BioCypherAdapter:
             tar: target node label
         """
 
+        edges = []
         with self.driver.session() as session:
             rels = session.read_transaction(get_rels_tx, id_batch)
 
-            edges = []
             for rel in rels:
 
                 # extract relevant id
