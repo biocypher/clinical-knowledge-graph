@@ -1,0 +1,9 @@
+*__pycache__
+.vscode
+biocypher-log
+biocypher-out
+data
+speed_test
+*~
+.DS_Store
+*.swp
