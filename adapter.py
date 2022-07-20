@@ -43,6 +43,7 @@ class BioCypherAdapter:
             db_user="neo4j",
             db_passwd="your_password_here",
             multi_db=False,
+            max_connection_lifetime=7200,
         )
 
     def write_to_csv_for_admin_import(self):
@@ -66,7 +67,7 @@ class BioCypherAdapter:
         # remove Timepoint from node_labels
         node_labels.remove("Timepoint")
 
-        # node_labels = ["Gene", "Known_variant", "Somatic_mutation"]
+        # node_labels = ["Food"]
 
         for label in node_labels:
             with self.driver.session() as session:
@@ -89,8 +90,7 @@ class BioCypherAdapter:
         rel_labels = [label.split(",") for label in rel_labels]
 
         # rel_labels = [
-        #     ("Known_variant", "VARIANT_FOUND_IN_GENE", "Gene"),
-        #     ("Somatic_mutation", "VARIANT_FOUND_IN_GENE", "Gene"),
+        #     ("Clinically_relevant_variant", "ASSOCIATED_WITH", "Disease"),
         # ]
         # rel_labels = []
 
