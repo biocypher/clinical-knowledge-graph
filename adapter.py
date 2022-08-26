@@ -7,7 +7,6 @@ BioCypher - CKG prototype
 
 import biocypher
 import neo4j_utils as nu
-
 from biocypher._logger import logger
 
 logger.debug(f"Loading module {__name__}.")
