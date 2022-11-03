@@ -63,8 +63,6 @@ class BioCypherAdapter:
         with open("data/node_labels.csv", "r") as f:
             node_labels = f.read().splitlines()
 
-        # remove Timepoint from node_labels
-        node_labels.remove("Timepoint")
 
         # node_labels = ["Food"]
 
@@ -276,7 +274,7 @@ class BioCypherAdapter:
 
 def get_nodes_tx(tx, ids):
     result = tx.run(
-        "MATCH (n) " "WHERE id(n) IN {ids} " "RETURN n",
+        "MATCH (n) " "WHERE id(n) IN $ids " "RETURN n",
         ids=ids,
     )
     return result.data()
@@ -285,7 +283,7 @@ def get_nodes_tx(tx, ids):
 def get_rels_tx(tx, ids):
     result = tx.run(
         "MATCH (n)-[r]->(m) "
-        "WHERE id(r) IN {ids} "
+        "WHERE id(r) IN $ids "
         "RETURN n, PROPERTIES(r), m",
         ids=ids,
     )
