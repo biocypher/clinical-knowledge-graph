@@ -1,15 +1,16 @@
 import neo4j_utils as nu
 import pandas as pd
 import json
+import os
 
 
-# driver = nu.Driver(
-#     db_name="neo4j",
-#     db_uri="bolt://localhost:7687",
-#     db_user="neo4j",
-#     db_passwd="your_password_here",
-#     multi_db=False,
-# )
+driver = nu.Driver(
+    db_name="neo4j",
+    db_uri="bolt://localhost:7687",
+    db_user="neo4j",
+    db_passwd="your_password_here",
+    multi_db=False,
+)
 
 # res, sum = driver.query(
 #     "MATCH (n:Known_variant)-[:VARIANT_IS_CLINICALLY_RELEVANT]-(m) RETURN n, m LIMIT 1"
@@ -19,38 +20,40 @@ import json
 
 # print(res)
 
-# ### get all node labels
-# res, sum = driver.query("MATCH (n) RETURN DISTINCT labels(n)")
+if not os.path.exists("data/node_labels.csv"):
+    ### get all node labels
+    res, sum = driver.query("MATCH (n) RETURN DISTINCT labels(n)")
 
-# # write res to csv
-# with open("node_labels.csv", "w") as f:
-#     for r in res:
-#         name = r["labels(n)"][0]
-#         f.write(str(name) + "\n")
+    # write res to csv
+    with open("data/node_labels.csv", "w") as f:
+        for r in res:
+            name = r["labels(n)"][0]
+            f.write(str(name) + "\n")
 
-# ### get all relationship combinations
-# res, sum = driver.query(
-#     "MATCH (n)-[r]->(m) RETURN DISTINCT labels(n), type(r), labels(m)"
-# )
+### get all relationship combinations
+if not os.path.exists("data/granular_relationships.txt"):
+    res, sum = driver.query(
+        "MATCH (n)-[r]->(m) RETURN DISTINCT labels(n), type(r), labels(m)"
+    )
 
-# # write res to file
-# with open("granular_relationships.txt", "w") as f:
-#     f.write("Source,Relationship,Target\n")
-#     for r in res:
-#         src = r["labels(n)"]
-#         # concatenate src labels if more than 1
-#         if len(src) > 1:
-#             src = ";".join(src)
-#         else:
-#             src = src[0]
-#         tar = r["labels(m)"]
-#         # concatenate tar labels if more than 1
-#         if len(tar) > 1:
-#             tar = ";".join(tar)
-#         else:
-#             tar = tar[0]
-#         typ = r["type(r)"]
-#         f.write(f"{src},{typ},{tar}\n")
+    # write res to file
+    with open("data/granular_relationships.txt", "w") as f:
+        f.write("Source,Relationship,Target\n")
+        for r in res:
+            src = r["labels(n)"]
+            # concatenate src labels if more than 1
+            if len(src) > 1:
+                src = ";".join(src)
+            else:
+                src = src[0]
+            tar = r["labels(m)"]
+            # concatenate tar labels if more than 1
+            if len(tar) > 1:
+                tar = ";".join(tar)
+            else:
+                tar = tar[0]
+            typ = r["type(r)"]
+            f.write(f"{src},{typ},{tar}\n")
 
 
 # ### get relationship type summary
