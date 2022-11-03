@@ -2,7 +2,7 @@
 .vscode
 biocypher-log
 biocypher-out
-data
+*.dump
 speed_test
 *~
 .DS_Store
