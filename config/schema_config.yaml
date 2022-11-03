@@ -22,49 +22,49 @@ Title: BioCypher graph schema configuration file
 # for instance in the case of functional protein complexes. These are represented
 # by so-called "mixins", which are not officially part of the hierarchy.
 
-AminoAcidSequence:
-  is_a: Polypeptide
+amino acid sequence:
+  is_a: polypeptide
   represented_as: node
-  preferred_id: UniProtKB
+  preferred_id: uniprot
   label_in_input: Amino_acid_sequence
   properties:
     sequence: str
 
-BiologicalProcess:
+biological process:
   represented_as: node
-  preferred_id: GO
+  preferred_id: go
   label_in_input: Biological_process
   properties:
     name: str
     description: str
 
-CellularComponent:
+cellular component:
   represented_as: node
-  preferred_id: GO
+  preferred_id: go
   label_in_input: Cellular_component
   properties:
     name: str
     description: str
 
-Chromosome:
-  is_a: NucleicAcidEntity
+chromosome:
+  is_a: nucleic acid entity
   represented_as: node
   preferred_id: chr
-  label_in_input: Chromosome
+  label_in_input: chromosome
   properties:
     taxid: str
 
-DiseaseOrPhenotypicFeature:
+phenotypic feature:
   represented_as: node
-  preferred_id: SNOMEDCT
+  preferred_id: snomedct
   label_in_input: Clinical_variable
   properties:
     name: str
     description: str
 
-SequenceVariant:
+sequence variant:
   represented_as: node
-  preferred_id: [ClinicallyRelevant, Known, Somatic]
+  preferred_id: [clinically relevant, known, somatic]
   label_in_input: [Clinically_relevant_variant, Known_variant, Somatic_mutation]
   properties:
     source: str
@@ -72,42 +72,43 @@ SequenceVariant:
     effect: str
     biotype: str
 
-MacromolecularComplexMixin:
+complex:
+  synonym_for: macromolecular complex
   represented_as: node
-  preferred_id: custom
+  preferred_id: id
   label_in_input: Complex
   properties:
     name: str
     source: str
 
-Disease:
+disease:
   represented_as: node
-  preferred_id: DOID
+  preferred_id: doid
   label_in_input: Disease
   properties:
     name: str
     description: str
 
-Experiment:
-  is_a: SubjectOfInvestigation
+experiment:
+  is_a: subject of investigation
   represented_as: node
-  preferred_id: MS
+  preferred_id: ms
   label_in_input: Experiment
   properties:
     name: str
     description: str
 
-ClinicalFinding:
+clinical finding:
   represented_as: node
-  preferred_id: EFO
+  preferred_id: efo
   label_in_input: Experimental_factor
   properties:
     name: str
     description: str
 
-Food:
+food:
   represented_as: node
-  preferred_id: FooDB
+  preferred_id: foodb
   label_in_input: Food
   properties:
     name: str
@@ -115,33 +116,33 @@ Food:
     subgroup: str
     # description: str
 
-ProteinDomain:
+protein domain:
   represented_as: node
-  preferred_id: PFAM
+  preferred_id: pfam
   label_in_input: Functional_region
   properties:
     name: str
     description: str
 
-Gene:
+gene:
   represented_as: node
-  preferred_id: HGNC
+  preferred_id: hgnc
   label_in_input: Gene
   properties:
     name: str
     taxid: int
 
-Dataset:
+dataset:
   represented_as: node
-  preferred_id: GCST
+  preferred_id: gcst
   label_in_input: GWAS_study
   properties:
     title: str
 
-Metabolite:
-  is_a: SmallMolecule
+metabolite:
+  is_a: small molecule
   represented_as: node
-  preferred_id: HMDB
+  preferred_id: hmdb
   label_in_input: Metabolite
   properties:
     name: str
@@ -152,113 +153,114 @@ Metabolite:
     class: str
     sub_class: str
 
-ProteinModification:
-  is_a: BiologicalEntity
+protein modification:
+  is_a: biological entity
   represented_as: node
-  preferred_id: MOD
+  preferred_id: mod
   label_in_input: Modification
   properties:
     name: str
     description: str
 
-ModifiedProtein:
-  is_a: Protein
+modified protein:
+  is_a: protein
   represented_as: node
-  preferred_id: UniProtKB_custom
+  preferred_id: uniprot
   label_in_input: Modified_protein
   properties:
     position: str
     sequence_window: str
     source: str
 
-MolecularActivity:
+molecular function:
+  synonym_for: molecular activity
   represented_as: node
-  preferred_id: GO
+  preferred_id: go
   label_in_input: Molecular_function
   properties:
     name: str
     description: str
 
-Pathway:
+pathway:
   represented_as: node
-  preferred_id: SMPDB
+  preferred_id: smpdb
   label_in_input: Pathway
   properties:
     name: str
     description: str
 
-Peptide:
-  is_a: Polypeptide
+peptide:
+  is_a: polypeptide
   represented_as: node
-  preferred_id: custom
+  preferred_id: id
   label_in_input: Peptide
   properties:
     type: str
     unique: str
 
-PhenotypicFeature:
+phenotypic feature:
   represented_as: node
-  preferred_id: HP
+  preferred_id: hp
   label_in_input: Phenotype
   properties:
     name: str
     description: str
 
-Agent:
+agent:
   represented_as: node
-  preferred_id: [Project, User]
-  label_in_input: [Project, User]
+  preferred_id: [project, user]
+  label_in_input: [project, user]
   properties:
     name: str
     description: str
 
-Protein:
+protein:
   represented_as: node
-  preferred_id: UniProtKB
-  label_in_input: Protein
+  preferred_id: uniprot
+  label_in_input: protein
   properties:
     name: str
     taxid: int
 
-ProteinStructure:
-  is_a: BiologicalEntity
+protein structure:
+  is_a: biological entity
   represented_as: node
-  preferred_id: RCSB
-  label_in_input: Protein_structure
+  preferred_id: pdb
+  label_in_input: protein_structure
   properties:
     link: str
     source: str
 
-Article:
+article:
   represented_as: node
-  preferred_id: PMID
+  preferred_id: pmid
   label_in_input: Publication
   properties:
     DOI: str
     linkout: str
     year: int
 
-Tissue:
+tissue:
   is_a: GrossAnatomicalStructure
   represented_as: node
-  preferred_id: BTO # not in biolink
+  preferred_id: bto # not in biolink
   label_in_input: Tissue
   properties:
     name: str
     description: str
 
-Transcript:
+transcript:
   represented_as: node
-  preferred_id: RefSeq
+  preferred_id: refseq
   label_in_input: Transcript
   properties:
     name: str
     taxid: int
     class: str
 
-Unit:
+unit:
   represented_as: node
-  preferred_id: UO
+  preferred_id: uo
   label_in_input: Units
   properties:
     name: str
@@ -280,353 +282,243 @@ Unit:
 # targeting, etc. Biolink proposes to use interaction identifiers from 
 # ontologies, such as https://www.ebi.ac.uk/ols/ontologies/mi/.
 
-ProteinToArticleAssociation:
-  is_a: InformationContentEntityToNamedThingAssociation
+protein to article association:
+  is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: Article
-  label_in_input: MENTIONED_IN_PUBLICATION_Protein_Publication
+  preferred_id: id
+  label_in_input: MENTIONED_IN_PUBLICATION_protein_Publication
 
-ProteinDomainToArticleAssociation:
-  is_a: InformationContentEntityToNamedThingAssociation
+protein domain to article association:
+  is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: custom
-  source: ProteinDomain
-  target: Article
+  preferred_id: id
   label_in_input: MENTIONED_IN_PUBLICATION_Functional_region_Publication
 
-TissueToArticleAssociation:
-  is_a: InformationContentEntityToNamedThingAssociation
+tissue to article association:
+  is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: custom
-  source: Tissue
-  target: Article
+  preferred_id: id
   label_in_input: MENTIONED_IN_PUBLICATION_Tissue_Publication
 
-DiseaseToArticleAssociation:
-  is_a: InformationContentEntityToNamedThingAssociation
+disease to article association:
+  is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: custom
-  source: Disease
-  target: Article
+  preferred_id: id
   label_in_input: MENTIONED_IN_PUBLICATION_Disease_Publication
 
-VariantToProteinAssociation:
-  is_a: Association
+variant to protein association:
+  is_a: association
   represented_as: edge
-  preferred_id: custom
-  source: Known.SequenceVariant
-  target: Protein
-  label_in_input: VARIANT_FOUND_IN_PROTEIN
+  preferred_id: id
+  label_in_input: VARIANT_FOUND_IN_protein
 
-VariantToGeneAssociation: # -> Known... and Somatic...
+variant to gene association: # -> known... and somatic...
   represented_as: node
-  preferred_id: custom
-  source: [Known.SequenceVariant, Somatic.SequenceVariant]
-  target: Gene
+  preferred_id: id
+  source: [known.sequence variant, somatic.sequence variant]
+  target: gene
   label_in_input: [
     VARIANT_FOUND_IN_GENE_Known_variant_Gene,
     VARIANT_FOUND_IN_GENE_Somatic_mutation_Gene
   ]
 
-ProteinToDiseaseAssociation:
-  is_a: EntityToDiseaseAssociation
+protein to disease association:
+  is_a: entity to disease association
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: Disease
+  preferred_id: id
   label_in_input: [
-    ASSOCIATED_WITH_Protein_Disease,
+    ASSOCIATED_WITH_protein_Disease,
     DETECTED_IN_PATHOLOGY_SAMPLE
   ]
 
-VariantToDiseaseAssociation:
+variant to disease association:
   represented_as: edge
-  preferred_id: custom
-  source: ClinicallyRelevant.SequenceVariant
-  target: Disease
+  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Clinically_relevant_variant_Disease
 
-MetaboliteToDiseaseAssociation:
+metabolite to disease association:
   represented_as: edge
-  preferred_id: custom
-  source: Metabolite
-  target: Disease
+  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Metabolite_Disease
 
-ProteinToBiologicalProcessAssociation:
+protein to biological process association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: BiologicalProcess
-  label_in_input: ASSOCIATED_WITH_Protein_Biological_process
+  preferred_id: id
+  label_in_input: ASSOCIATED_WITH_protein_Biological_process
 
-ProteinToExpressionSiteAssociation:
+protein to expression site association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: GrossAnatomicalStructure
-  label_in_input: ASSOCIATED_WITH_Protein_Tissue
+  preferred_id: id
+  label_in_input: ASSOCIATED_WITH_protein_Tissue
 
-MetaboliteToTissueAssociation:
+metabolite to tissue association:
   represented_as: edge
-  preferred_id: custom
-  source: Metabolite
-  target: Tissue
+  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
-MetaboliteToTissueAssociation:
+metabolite to tissue association:
   represented_as: edge
-  preferred_id: custom
-  source: Metabolite
-  target: Tissue
+  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
-MacromolecularMachineToBiologicalProcessAssociation:
+macromolecular machine to biological process association:
   represented_as: edge
-  preferred_id: custom
-  source: MacromolecularComplexMixin
-  target: BiologicalProcess
+  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Complex_Biological_process
 
-ProteinToMolecularActivityAssociation:
+protein to molecular activity association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: MolecularActivity
-  label_in_input: ASSOCIATED_WITH_Protein_Molecular_function
+  preferred_id: id
+  label_in_input: ASSOCIATED_WITH_protein_Molecular_function
 
-ProteinToCellularComponentAssociation:
+protein to cellular component association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: CellularComponent
+  preferred_id: id
   label_in_input: [
-    ASSOCIATED_WITH_Protein_Cellular_component,
+    ASSOCIATED_WITH_protein_Cellular_component,
     ASSOCIATED_WITH_INTEGRATED
   ]
 
-MetaboliteToProteinAssociation:
+metabolite to protein association:
   represented_as: edge
-  preferred_id: custom
-  source: Metabolite
-  target: Protein
-  label_in_input: ASSOCIATED_WITH_Metabolite_Protein
+  preferred_id: id
+  label_in_input: ASSOCIATED_WITH_Metabolite_protein
 
-PostTranslationalInteraction:
+protein protein interaction:
+  is_a: association
   represented_as: node
-  preferred_id: custom
-  source: Protein
-  target: Protein
+  preferred_id: id
   label_in_input: [COMPILED_INTERACTS_WITH, CURATED_INTERACTS_WITH, ACTS_ON]
 
-PeptideToProteinAssociation:
+peptide to protein association:
   represented_as: edge
-  preferred_id: custom
-  source: Peptide
-  target: Protein
-  label_in_input: BELONGS_TO_PROTEIN
+  preferred_id: id
+  label_in_input: BELONGS_TO_protein
 
 is_a:
   represented_as: edge
   label_as_edge: is_a
-  preferred_id: custom
-  source: [
-    Disease, 
-    BiologicalProcess,
-    Tissue,
-    MolecularFunction,
-    CellularComponent,
-    Modification,
-    Phenotype,
-    SubjectOfInvestigation,
-    ClinicalFinding,
-    DiseaseOrPhenotypicFeature,
-    Unit
-  ]
-  target: [
-    Disease, 
-    BiologicalProcess,
-    Tissue,
-    MolecularFunction,
-    CellularComponent,
-    Modification,
-    Phenotype,
-    SubjectOfInvestigation,
-    ClinicalFinding,
-    DiseaseOrPhenotypicFeature,
-    Unit
-  ]
+  preferred_id: id
   label_in_input: HAS_PARENT
 
-MetaboliteToPathwayAssociation:
+metabolite to pathway association:
   represented_as: edge
-  preferred_id: custom
-  source: Metabolite
-  target: Pathway
+  preferred_id: id
   label_in_input: ANNOTATED_IN_PATHWAY_Metabolite_Pathway
 
-ProteinToPathwayAssociation:
+protein to pathway association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: Pathway
-  label_in_input: ANNOTATED_IN_PATHWAY_Protein_Pathway
+  preferred_id: id
+  label_in_input: ANNOTATED_IN_PATHWAY_protein_Pathway
 
-GeneToGeneProductRelationship:
+gene to gene product relationship:
   represented_as: edge
-  preferred_id: custom
-  source: Gene
-  target: Protein
-  label_in_input: TRANSLATED_INTO_Gene_Protein
+  preferred_id: id
+  label_in_input: TRANSLATED_INTO_Gene_protein
 
-TranscriptToProteinRelationship:
+transcript to protein relationship:
   represented_as: edge
-  preferred_id: custom
-  source: Transcript
-  target: Protein
-  label_in_input: TRANSLATED_INTO_Transcript_Protein
+  preferred_id: id
+  label_in_input: TRANSLATED_INTO_Transcript_protein
 
-GeneToTranscriptRelationship: 
+gene to transcript relationship: 
   represented_as: edge
-  preferred_id: custom
-  source: Gene
-  target: Transcript
+  preferred_id: id
   label_in_input: TRANSCRIBED_INTO
 
-ProteinToAminoAcidAssociation:
+protein to amino acid association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: AminoAcidSequence
+  preferred_id: id
   label_in_input: HAS_SEQUENCE
 
-ProteinToProteinDomainAssociation:
+protein to protein domain association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: ProteinDomain
-  label_in_input: FOUND_IN_PROTEIN
+  preferred_id: id
+  label_in_input: FOUND_IN_protein
 
-ProteinToPostTranslationalModificationAssociation:
+protein to post translational modification association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: PostTranslationalModification
+  preferred_id: id
   label_in_input: [
-    HAS_MODIFICATION, HAS_MODIFIED_SITE_Protein_Modified_protein
+    HAS_MODIFICATION, HAS_MODIFIED_SITE_protein_Modified_protein
   ]
 
-PeptideToPostTranslationalModificationAssociation:
+peptide to post translational modification association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: PostTranslationalModification
+  preferred_id: id
   label_in_input: HAS_MODIFIED_SITE_Peptide_Modified_protein
 
-SequenceVariantToPostTranslationalInteractionAssociation:
+sequence variant to protein protein interaction association:
   represented_as: node
-  preferred_id: custom
-  source: Known.SequenceVariant
-  target: PostTranslationalInteraction # needs to be built from sequence 
-                                      # variant host and target protein
+  preferred_id: id
   label_in_input: CURATED_AFFECTS_INTERACTION_WITH
 
-ProteinToMacromolecularComplexAssociation:
+protein to macromolecular complex association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: MacromolecularComplexMixin
+  preferred_id: id
   label_in_input: IS_SUBUNIT_OF
 
-DatasetToClinicalFindingAssociation:
+dataset to clinical finding association:
   represented_as: edge
-  preferred_id: custom
-  source: Dataset
-  target: ClinicalFinding
+  preferred_id: id
   label_in_input: STUDIES_TRAIT
 
-DatasetToArticleAssociation:
+dataset to article association:
   represented_as: edge
-  preferred_id: custom
-  source: Dataset
-  target: Article
+  preferred_id: id
   label_in_input: PUBLISHED_IN
 
-ClinicalFindingToDiseaseAssociation:
+clinical finding to disease association:
   represented_as: edge
-  preferred_id: custom
-  source: ClinicalFinding
-  target: Disease
+  preferred_id: id
   label_in_input: MAPS_TO_Experimental_factor_Disease
 
-ClinicalFindingToPhenotypicFeatureAssociation:
+clinical finding to phenotypic feature association:
   represented_as: edge
-  preferred_id: custom
-  source: ClinicalFinding
-  target: PhenotypicFeature
+  preferred_id: id
   label_in_input: MAPS_TO_Experimental_factor_Phenotype
 
-ClinicalFindingToDiseaseOrPhenotypicFeatureAssociation:
+clinical finding to disease or phenotypic feature association:
   represented_as: edge
-  preferred_id: custom
-  source: ClinicalFinding
-  target: DiseaseOrPhenotypicFeature
+  preferred_id: id
   label_in_input: MAPS_TO_Experimental_factor_Clinical_variable
 
-FoodToMetaboliteAssociation:
+food to metabolite association:
   represented_as: edge
-  preferred_id: custom
-  source: Food
-  target: Metabolite
+  preferred_id: id
   label_in_input: HAS_CONTENT
 
-ProteinAsAMarkerOfDiseaseAssociation:
+proteinAsAMarkerOfdisease association:
   represented_as: edge
-  preferred_id: custom
-  source: Protein
-  target: Disease
+  preferred_id: id
   label_in_input: IS_BIOMARKER_OF_DISEASE
 
-AgentToDiseaseAssociation:
+agent to disease association:
   represented_as: edge
-  preferred_id: custom
-  source: Project.Agent
-  target: Disease
+  preferred_id: id
   label_in_input: STUDIES_DISEASE
 
-AgentToTissueAssociation:
+agent to tissue association:
   represented_as: edge
-  preferred_id: custom
-  source: Project.Agent
-  target: Tissue
+  preferred_id: id
   label_in_input: STUDIES_TISSUE
 
-ContributorAssociation:
+contributor association:
   represented_as: edge
-  preferred_id: custom
-  source: User.Agent
-  target: Tissue
+  preferred_id: id
   label_in_input: PARTICIPATES_IN
 
-LeadContributorAssociation:
+lead contributor association:
   represented_as: edge
-  preferred_id: custom
-  source: User.Agent
-  target: Tissue
+  preferred_id: id
   label_in_input: IS_RESPONSIBLE
 
-AgentToAgentAssociation:
+agent to agent association:
   represented_as: edge
-  preferred_id: custom
-  source: Project.Agent
-  target: Project.Agent
+  preferred_id: id
   label_in_input: FOLLOWS_UP_PROJECT
 
-AgentToDiseaseOrPhenotypicFeatureAssociation:
+agent to disease or phenotypic feature association:
   represented_as: edge
-  preferred_id: custom
-  source: Project.Agent
-  target: DiseaseOrPhenotypicFeature
+  preferred_id: id
   label_in_input: STUDIES_INTERVENTION
