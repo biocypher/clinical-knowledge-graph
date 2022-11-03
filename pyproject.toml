@@ -7,7 +7,8 @@ authors = ["Sebastian Lobentanzer <sebastian.lobentanzer@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 pandas = "^1.4.3"
-biocypher = {path = "../BioCypher", develop = true}
+biocypher = { git = "https://github.com/saezlab/BioCypher.git", branch = "main" }
+# biocypher = {path = "../BioCypher", develop = true}
 black = "^22.6.0"
 
 [tool.poetry.dev-dependencies]
