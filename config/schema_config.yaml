@@ -30,6 +30,22 @@ amino acid sequence:
   properties:
     sequence: str
 
+analytical sample:
+  is_a: material sample
+  represented_as: node
+  label_in_input: Analytical_sample
+  properties:
+    external_id: str
+    group: str
+    group2: str
+
+biological sample:
+  is_a: material sample
+  represented_as: node
+  label_in_input: Biological_sample
+  properties:
+    external_id: str
+
 biological process:
   represented_as: node
   preferred_id: go
@@ -50,7 +66,7 @@ chromosome:
   is_a: nucleic acid entity
   represented_as: node
   preferred_id: chr
-  label_in_input: chromosome
+  label_in_input: Chromosome
   properties:
     taxid: str
 
@@ -73,9 +89,9 @@ sequence variant:
     biotype: str
 
 complex:
-  synonym_for: macromolecular complex
+  synonym_for: macromolecular complex mixin 
+  # TODO new biolink has macromolecular complex, but BMT does not provide it
   represented_as: node
-  preferred_id: id
   label_in_input: Complex
   properties:
     name: str
@@ -132,7 +148,8 @@ gene:
     name: str
     taxid: int
 
-dataset:
+gwas study:
+  is_a: dataset
   represented_as: node
   preferred_id: gcst
   label_in_input: GWAS_study
@@ -192,7 +209,6 @@ pathway:
 peptide:
   is_a: polypeptide
   represented_as: node
-  preferred_id: id
   label_in_input: Peptide
   properties:
     type: str
@@ -209,7 +225,7 @@ phenotypic feature:
 agent:
   represented_as: node
   preferred_id: [project, user]
-  label_in_input: [project, user]
+  label_in_input: [Project, User]
   properties:
     name: str
     description: str
@@ -217,7 +233,7 @@ agent:
 protein:
   represented_as: node
   preferred_id: uniprot
-  label_in_input: protein
+  label_in_input: Protein
   properties:
     name: str
     taxid: int
@@ -226,7 +242,7 @@ protein structure:
   is_a: biological entity
   represented_as: node
   preferred_id: pdb
-  label_in_input: protein_structure
+  label_in_input: Protein_structure
   properties:
     link: str
     source: str
@@ -240,8 +256,15 @@ article:
     linkout: str
     year: int
 
+subject:
+  is_a: individual organism
+  represented_as: node
+  label_in_input: Subject
+  properties:
+    external_id: str
+
 tissue:
-  is_a: GrossAnatomicalStructure
+  is_a: gross anatomical structure
   represented_as: node
   preferred_id: bto # not in biolink
   label_in_input: Tissue
@@ -285,36 +308,40 @@ unit:
 protein to article association:
   is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: id
-  label_in_input: MENTIONED_IN_PUBLICATION_protein_Publication
+  label_in_input: MENTIONED_IN_PUBLICATION_Protein_Publication
 
 protein domain to article association:
   is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: id
   label_in_input: MENTIONED_IN_PUBLICATION_Functional_region_Publication
 
 tissue to article association:
   is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: id
   label_in_input: MENTIONED_IN_PUBLICATION_Tissue_Publication
 
 disease to article association:
   is_a: information content entity to named thing association
   represented_as: edge
-  preferred_id: id
   label_in_input: MENTIONED_IN_PUBLICATION_Disease_Publication
+
+cellular component to article association:
+  is_a: information content entity to named thing association
+  represented_as: edge
+  label_in_input: MENTIONED_IN_PUBLICATION_Cellular_component_Publication
+
+modified protein to article association:
+  is_a: information content entity to named thing association
+  represented_as: edge
+  label_in_input: MENTIONED_IN_PUBLICATION_Modified_protein_Publication
 
 variant to protein association:
   is_a: association
   represented_as: edge
-  preferred_id: id
-  label_in_input: VARIANT_FOUND_IN_protein
+  label_in_input: VARIANT_FOUND_IN_PROTEIN
 
 variant to gene association: # -> known... and somatic...
   represented_as: node
-  preferred_id: id
   source: [known.sequence variant, somatic.sequence variant]
   target: gene
   label_in_input: [
@@ -322,203 +349,194 @@ variant to gene association: # -> known... and somatic...
     VARIANT_FOUND_IN_GENE_Somatic_mutation_Gene
   ]
 
+variant to disease association:
+  represented_as: edge
+  label_in_input: ASSOCIATED_WITH_Clinically_relevant_variant_Disease
+  
+variant to gwas study association:
+  represented_as: edge
+  label_in_input: VARIANT_FOUND_IN_GWAS
+
 protein to disease association:
   is_a: entity to disease association
   represented_as: edge
-  preferred_id: id
   label_in_input: [
-    ASSOCIATED_WITH_protein_Disease,
+    ASSOCIATED_WITH_Protein_Disease,
     DETECTED_IN_PATHOLOGY_SAMPLE
   ]
 
-variant to disease association:
-  represented_as: edge
-  preferred_id: id
-  label_in_input: ASSOCIATED_WITH_Clinically_relevant_variant_Disease
-
 metabolite to disease association:
   represented_as: edge
-  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Metabolite_Disease
 
 protein to biological process association:
   represented_as: edge
-  preferred_id: id
-  label_in_input: ASSOCIATED_WITH_protein_Biological_process
+  label_in_input: ASSOCIATED_WITH_Protein_Biological_process
 
 protein to expression site association:
   represented_as: edge
-  preferred_id: id
-  label_in_input: ASSOCIATED_WITH_protein_Tissue
+  label_in_input: ASSOCIATED_WITH_Protein_Tissue
 
 metabolite to tissue association:
   represented_as: edge
-  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
 metabolite to tissue association:
   represented_as: edge
-  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
 macromolecular machine to biological process association:
   represented_as: edge
-  preferred_id: id
   label_in_input: ASSOCIATED_WITH_Complex_Biological_process
 
 protein to molecular activity association:
   represented_as: edge
-  preferred_id: id
-  label_in_input: ASSOCIATED_WITH_protein_Molecular_function
+  label_in_input: ASSOCIATED_WITH_Protein_Molecular_function
 
 protein to cellular component association:
   represented_as: edge
-  preferred_id: id
   label_in_input: [
-    ASSOCIATED_WITH_protein_Cellular_component,
+    ASSOCIATED_WITH_Protein_Cellular_component,
     ASSOCIATED_WITH_INTEGRATED
   ]
 
 metabolite to protein association:
   represented_as: edge
-  preferred_id: id
-  label_in_input: ASSOCIATED_WITH_Metabolite_protein
+  label_in_input: ASSOCIATED_WITH_Metabolite_Protein
 
 protein protein interaction:
   is_a: association
   represented_as: node
-  preferred_id: id
   label_in_input: [COMPILED_INTERACTS_WITH, CURATED_INTERACTS_WITH, ACTS_ON]
 
 peptide to protein association:
   represented_as: edge
-  preferred_id: id
-  label_in_input: BELONGS_TO_protein
+  label_in_input: BELONGS_TO_PROTEIN
 
 is_a:
   represented_as: edge
   label_as_edge: is_a
-  preferred_id: id
   label_in_input: HAS_PARENT
 
 metabolite to pathway association:
   represented_as: edge
-  preferred_id: id
   label_in_input: ANNOTATED_IN_PATHWAY_Metabolite_Pathway
 
 protein to pathway association:
   represented_as: edge
-  preferred_id: id
-  label_in_input: ANNOTATED_IN_PATHWAY_protein_Pathway
+  label_in_input: ANNOTATED_IN_PATHWAY_Protein_Pathway
 
 gene to gene product relationship:
   represented_as: edge
-  preferred_id: id
-  label_in_input: TRANSLATED_INTO_Gene_protein
+  label_in_input: TRANSLATED_INTO_Gene_Protein
 
 transcript to protein relationship:
   represented_as: edge
-  preferred_id: id
-  label_in_input: TRANSLATED_INTO_Transcript_protein
+  label_in_input: TRANSLATED_INTO_Transcript_Protein
 
 gene to transcript relationship: 
   represented_as: edge
-  preferred_id: id
   label_in_input: TRANSCRIBED_INTO
 
 protein to amino acid association:
   represented_as: edge
-  preferred_id: id
   label_in_input: HAS_SEQUENCE
 
 protein to protein domain association:
   represented_as: edge
-  preferred_id: id
-  label_in_input: FOUND_IN_protein
+  label_in_input: FOUND_IN_PROTEIN
 
 protein to post translational modification association:
   represented_as: edge
-  preferred_id: id
   label_in_input: [
-    HAS_MODIFICATION, HAS_MODIFIED_SITE_protein_Modified_protein
+    HAS_MODIFICATION, HAS_MODIFIED_SITE_Protein_Modified_protein
   ]
 
 peptide to post translational modification association:
   represented_as: edge
-  preferred_id: id
   label_in_input: HAS_MODIFIED_SITE_Peptide_Modified_protein
 
 sequence variant to protein protein interaction association:
   represented_as: node
-  preferred_id: id
   label_in_input: CURATED_AFFECTS_INTERACTION_WITH
 
 protein to macromolecular complex association:
   represented_as: edge
-  preferred_id: id
   label_in_input: IS_SUBUNIT_OF
 
-dataset to clinical finding association:
+gwas study to clinical finding association:
   represented_as: edge
-  preferred_id: id
   label_in_input: STUDIES_TRAIT
 
-dataset to article association:
+gwas study to article association:
   represented_as: edge
-  preferred_id: id
   label_in_input: PUBLISHED_IN
 
 clinical finding to disease association:
   represented_as: edge
-  preferred_id: id
   label_in_input: MAPS_TO_Experimental_factor_Disease
 
 clinical finding to phenotypic feature association:
   represented_as: edge
-  preferred_id: id
   label_in_input: MAPS_TO_Experimental_factor_Phenotype
 
 clinical finding to disease or phenotypic feature association:
   represented_as: edge
-  preferred_id: id
   label_in_input: MAPS_TO_Experimental_factor_Clinical_variable
 
 food to metabolite association:
   represented_as: edge
-  preferred_id: id
   label_in_input: HAS_CONTENT
 
 proteinAsAMarkerOfdisease association:
   represented_as: edge
-  preferred_id: id
   label_in_input: IS_BIOMARKER_OF_DISEASE
 
 agent to disease association:
   represented_as: edge
-  preferred_id: id
   label_in_input: STUDIES_DISEASE
 
 agent to tissue association:
   represented_as: edge
-  preferred_id: id
   label_in_input: STUDIES_TISSUE
 
 contributor association:
   represented_as: edge
-  preferred_id: id
   label_in_input: PARTICIPATES_IN
 
 lead contributor association:
   represented_as: edge
-  preferred_id: id
   label_in_input: IS_RESPONSIBLE
 
 agent to agent association:
   represented_as: edge
-  preferred_id: id
   label_in_input: FOLLOWS_UP_PROJECT
 
 agent to disease or phenotypic feature association:
   represented_as: edge
-  preferred_id: id
   label_in_input: STUDIES_INTERVENTION
+
+analytical sample to protein association:
+  is_a: association
+  represented_as: edge
+  label_in_input: HAS_QUANTIFIED_PROTEIN
+
+analytical sample to modified protein association:
+  is_a: association
+  represented_as: edge
+  label_in_input: HAS_QUANTIFIED_MODIFIED_PROTEIN
+
+biological sample to analytical sample association:
+  is_a: association
+  represented_as: edge
+  label_in_input: SPLITTED_INTO
+
+project to subject association:
+  is_a: association
+  represented_as: edge
+  label_in_input: HAS_ENROLLED
+
+biological sample to subject association:
+  is_a: association
+  represented_as: edge
+  label_in_input: BELONGS_TO_SUBJECT
