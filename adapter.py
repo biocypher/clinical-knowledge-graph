@@ -19,14 +19,18 @@ class BioCypherAdapter:
         db_name="neo4j",
         id_batch_size: int = int(1e6),
         user_schema_config_path="config/schema_config.yaml",
+        clear_cache: bool = False,
+        limit_import_count: int = 0,
     ):
 
         self.db_name = db_name
         self.id_batch_size = id_batch_size
+        self.limit_import_count = limit_import_count
 
         # write driver
         self.bcy = biocypher.Driver(
             offline=True,  # set offline to true,
+            clear_cache=clear_cache,
             # connect to running DB for input data via the neo4j driver
             user_schema_config_path=user_schema_config_path,
             delimiter="¦",
@@ -53,6 +57,7 @@ class BioCypherAdapter:
         self.write_nodes()
         self.write_edges()
         self.bcy.write_import_call()
+        self.bcy.log_missing_bl_types()
 
     def write_nodes(self):
         """
@@ -63,8 +68,7 @@ class BioCypherAdapter:
         with open("data/node_labels.csv", "r") as f:
             node_labels = f.read().splitlines()
 
-
-        # node_labels = ["Food"]
+        # node_labels = ["Complex"]
 
         for label in node_labels:
             with self.driver.session() as session:
@@ -124,7 +128,12 @@ class BioCypherAdapter:
         performed inside the transaction.
         """
 
-        result = tx.run(f"MATCH (n:{label}) " "RETURN id(n) as id")
+        query = f"MATCH (n:{label}) RETURN id(n) as id"
+
+        if self.limit_import_count > 0:
+            query += f" LIMIT {self.limit_import_count}"
+
+        result = tx.run(query)
 
         id_batch = []
         for record in result:
@@ -154,9 +163,12 @@ class BioCypherAdapter:
         performed inside the transaction.
         """
 
-        result = tx.run(
-            f"MATCH (n:{src})-[r:{typ}]->(m:{tar}) " "RETURN id(r) as id"
-        )
+        query = f"MATCH (n:{src})-[r:{typ}]->(m:{tar}) RETURN id(r) as id"
+
+        if self.limit_import_count > 0:
+            query += f" LIMIT {self.limit_import_count}"
+
+        result = tx.run(query)
 
         id_batch = []
         for record in result:
@@ -295,13 +307,11 @@ def _process_node_id(_id, _type):
     Add prefixes to avoid multiple assignment.
     """
     if _type == "Food":
-        _id = "FooDB:" + _id
+        _id = "foodb:" + _id
     elif _type == "Chromosome":
         _id = "chr:" + _id
     elif _type == "Complex":
-        _id = "CORUM:" + _id
-    elif _type == "Timepoint":
-        _id = "timepoint:" + _id
+        _id = "corum:" + _id
     elif _type == "Amino_acid_sequence":
         _id = "aas:" + _id
     elif _type == "Clinical_variable":
@@ -314,5 +324,7 @@ def _process_node_id(_id, _type):
         _id = "uniprot:" + _id
     elif _type == "Gene":
         _id = "hgnc.symbol:" + _id
+    elif _type == "Analytical_sample":
+        _id = "sample:" + _id
 
     return _id

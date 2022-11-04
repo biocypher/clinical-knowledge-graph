@@ -192,7 +192,7 @@ lxml = ["lxml"]
 
 [[package]]
 name = "biocypher"
-version = "0.3.2"
+version = "0.3.3"
 description = "Graph database standard for molecular biology"
 category = "main"
 optional = false
@@ -218,7 +218,7 @@ yapf = "^0.32.0"
 type = "git"
 url = "https://github.com/saezlab/BioCypher.git"
 reference = "main"
-resolved_reference = "ff7232bdd05f68049028aa9563fe8ac6d8091c15"
+resolved_reference = "4adad81111260afe18544c70246c5f2e435afaa2"
 
 [[package]]
 name = "biothings-explorer"
