@@ -282,6 +282,7 @@ transcript:
     class: str
 
 unit:
+  is_a: entity
   represented_as: node
   preferred_id: uo
   label_in_input: Units

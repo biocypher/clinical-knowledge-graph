@@ -39,6 +39,9 @@ class BioCypherAdapter:
         self.bcy.start_bl_adapter()
         self.bcy.start_batch_writer(dirname=dirname, db_name=self.db_name)
 
+        # show ontology structure
+        self.bcy.show_ontology_structure()
+
         # read driver
         self.driver = nu.Driver(
             db_name="neo4j",
