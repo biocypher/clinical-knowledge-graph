@@ -5,42 +5,23 @@
 BioCypher - CKG prototype
 """
 
-import biocypher
 import neo4j_utils as nu
 from biocypher._logger import logger
 
 logger.debug(f"Loading module {__name__}.")
 
 
-class BioCypherAdapter:
+class CKGAdapter:
     def __init__(
         self,
-        dirname=None,
-        db_name="neo4j",
+        biocypher_driver = None,
         id_batch_size: int = int(1e6),
-        user_schema_config_path="config/schema_config.yaml",
-        clear_cache: bool = False,
         limit_import_count: int = 0,
     ):
 
-        self.db_name = db_name
+        self.biocypher_driver = biocypher_driver
         self.id_batch_size = id_batch_size
         self.limit_import_count = limit_import_count
-
-        # write driver
-        self.bcy = biocypher.Driver(
-            offline=True,  # set offline to true,
-            clear_cache=clear_cache,
-            # connect to running DB for input data via the neo4j driver
-            user_schema_config_path=user_schema_config_path,
-            delimiter="¦",
-        )
-        # start writer
-        self.bcy.start_bl_adapter()
-        self.bcy.start_batch_writer(dirname=dirname, db_name=self.db_name)
-
-        # show ontology structure
-        self.bcy.show_ontology_structure()
 
         # read driver
         self.driver = nu.Driver(
@@ -51,16 +32,6 @@ class BioCypherAdapter:
             multi_db=False,
             max_connection_lifetime=7200,
         )
-
-    def write_to_csv_for_admin_import(self):
-        """
-        Write nodes and edges to admin import csv files.
-        """
-
-        self.write_nodes()
-        self.write_edges()
-        self.bcy.write_import_call()
-        self.bcy.log_missing_bl_types()
 
     def write_nodes(self):
         """
@@ -212,9 +183,8 @@ class BioCypherAdapter:
                     _props = res["n"]
                     yield (_id, _type, _props)
 
-        self.bcy.write_nodes(
+        self.biocypher_driver.write_nodes(
             nodes=node_gen(),
-            db_name=self.db_name,
         )
 
     def _write_edges(self, id_batch, src, typ, tar):
@@ -281,9 +251,8 @@ class BioCypherAdapter:
 
                     yield (_src, _tar, _type, _props)
 
-        self.bcy.write_edges(
+        self.biocypher_driver.write_edges(
             edges=edge_gen(),
-            db_name=self.db_name,
         )
 
 
