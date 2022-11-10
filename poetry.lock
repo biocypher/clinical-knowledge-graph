@@ -64,7 +64,7 @@ version = "0.3.4"
 description = "Graph database standard for molecular biology"
 category = "main"
 optional = false
-python-versions = "^3.8"
+python-versions = "^3.9"
 develop = false
 
 [package.dependencies]
@@ -86,7 +86,7 @@ yapf = "^0.32.0"
 type = "git"
 url = "https://github.com/saezlab/BioCypher.git"
 reference = "main"
-resolved_reference = "e4c0c9d2a5f61903703c5c423437bc79ae87fca0"
+resolved_reference = "e85b32071a49b335b178c26b1b7574ac8f57daeb"
 
 [[package]]
 name = "black"
