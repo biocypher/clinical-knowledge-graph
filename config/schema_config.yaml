@@ -489,7 +489,7 @@ food to metabolite association:
   represented_as: edge
   label_in_input: HAS_CONTENT
 
-proteinAsAMarkerOfdisease association:
+protein as a marker of disease association:
   represented_as: edge
   label_in_input: IS_BIOMARKER_OF_DISEASE
 
