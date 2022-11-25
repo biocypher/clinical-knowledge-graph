@@ -492,6 +492,15 @@ food to metabolite association:
 protein as a marker of disease association:
   represented_as: edge
   label_in_input: IS_BIOMARKER_OF_DISEASE
+  # TODO: currently excludes properties that change between multiple
+  # relationships between the same two nodes. The level of desired granularity
+  # needs to be determined and then accounted for in the duplicate checking.
+  properties:
+    assay: str
+    is_routine: bool
+    is_used_in_clinic: bool
+    notes: str
+    reference: str
 
 agent to disease association:
   represented_as: edge

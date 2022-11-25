@@ -181,6 +181,14 @@ class CKGAdapter:
                     _id = _process_node_id(res["n"]["id"], label)
                     _type = label
                     _props = res["n"]
+
+                    # add strict mode properties
+                    if not _props.get("source"):
+                        _props["source"] = "CKG"
+                    if not _props.get("version"):
+                        _props["version"] = "v3"
+                    _props["licence"] = "None"
+
                     yield (_id, _type, _props)
 
         self.biocypher_driver.write_nodes(
@@ -236,18 +244,17 @@ class CKGAdapter:
                     ]:
                         _props = {"type": typ}
                     elif typ == "IS_BIOMARKER_OF_DISEASE":
-                        props = res["PROPERTIES(r)"]
-                        _props = {
-                            "age_range": props.get("age_range"),
-                            "age_units": props.get("age_units"),
-                            "assay": props.get("assay"),
-                            "is_routine": props.get("is_routine"),
-                            "is_used_in_clinic": props.get(
-                                "is_used_in_clinic"
-                            ),
-                            "normal_range": props.get("normal_range"),
-                            "sex": props.get("sex"),
-                        }
+                        # TODO decide on granularity of multiple relationships
+                        # between nodes: do we want multiple age ranges?
+                        # TODO also for other types of relationships
+                        _props = res["PROPERTIES(r)"]
+
+                    # add strict mode properties
+                    if not _props.get("source"):
+                        _props["source"] = "CKG"
+                    if not _props.get("version"):
+                        _props["version"] = "v3"
+                    _props["licence"] = "None"
 
                     yield (_src, _tar, _type, _props)
 
