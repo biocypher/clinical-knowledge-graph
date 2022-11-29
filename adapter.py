@@ -5,6 +5,7 @@
 BioCypher - CKG prototype
 """
 
+import os
 import neo4j_utils as nu
 from biocypher._logger import logger
 
@@ -14,14 +15,25 @@ logger.debug(f"Loading module {__name__}.")
 class CKGAdapter:
     def __init__(
         self,
+        dirname: str,
         biocypher_driver = None,
         id_batch_size: int = int(1e6),
         limit_import_count: int = 0,
+        resume: bool = False,
     ):
+
+        if resume and not dirname:
+            raise ValueError("dirname must be set if resume is True.")
 
         self.biocypher_driver = biocypher_driver
         self.id_batch_size = id_batch_size
         self.limit_import_count = limit_import_count
+        self.output_dir = dirname
+        self.resume = resume
+
+        if resume:
+            self.resume_file = os.path.join(dirname, "resume.txt")
+            self._load_resume_file()
 
         # read driver
         self.driver = nu.Driver(
@@ -45,6 +57,10 @@ class CKGAdapter:
         # node_labels = ["Complex"]
 
         for label in node_labels:
+            if self.resume:
+                if label in self.completed_entries:
+                    continue
+
             with self.driver.session() as session:
                 # writing of one type needs to be completed inside
                 # this session
@@ -81,6 +97,9 @@ class CKGAdapter:
                 "VARIANT_IS_CLINICALLY_RELEVANT",
                 "IS_A_KNOWN_VARIANT",
             ]:
+                if self.resume:
+                    if typ in self.completed_entries:
+                        continue
 
                 with self.driver.session() as session:
                     # writing of one type needs to be completed inside
@@ -124,6 +143,10 @@ class CKGAdapter:
 
                 # write last batch
                 self._write_nodes(id_batch, label)
+        
+        # add for resume
+        self.completed_entries.add(label)
+        self._write_resume_file()
 
     def _get_rel_ids_and_write_batches_tx(
         self,
@@ -159,6 +182,10 @@ class CKGAdapter:
             else:
                 self._write_edges(id_batch, src, typ, tar)
                 id_batch = []
+
+        # add for resume
+        self.completed_entries.add(typ)
+        self._write_resume_file()
 
     def _write_nodes(self, id_batch, label):
         """
@@ -261,6 +288,54 @@ class CKGAdapter:
         self.biocypher_driver.write_edges(
             edges=edge_gen(),
         )
+
+    def _write_resume_file(self):
+        """
+        Write the set of completed entities to a file in the current output
+        directory.
+        """
+        
+        with open(self.resume_file, "w") as f:
+            for entry in self.completed_entries:
+                f.write(f"{entry}\n")
+
+    def _load_resume_file(self):
+        """
+        Load the set of completed entities from a file in the current output
+        directory.
+        """
+        
+        self.completed_entries = set()
+
+        if os.path.exists(self.resume_file):
+        
+            with open(self.resume_file, "r") as f:
+                for line in f:
+                    self.completed_entries.add(line.strip())
+
+            # delete all files that are not in completed entries
+            for file in os.listdir(self.output_dir):
+                # split file at dash, use first part as label
+                label = file.split("-")[0]
+
+                # if dot in label, split at dot and use second part
+                if "." in label:
+                    label = label.split(".")[1]
+
+                # get CKG label from biocypher reverse translate
+                label = self.biocypher_driver.bl_adapter.reverse_translate_term(label)
+
+                if isinstance(label, list):
+
+                    for lab in label:
+                        if lab not in self.completed_entries:
+                            os.remove(os.path.join(self.output_dir, file))
+                            
+                else:
+
+                    if label not in self.completed_entries:
+                        os.remove(os.path.join(self.output_dir, file))
+
 
 
 def get_nodes_tx(tx, ids):

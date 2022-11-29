@@ -1,18 +1,24 @@
 from adapter import CKGAdapter
 import biocypher
 
+output_directory = "biocypher-out/strict_complete"
+
 # start biocypher
 driver = biocypher.Driver(
     db_name="large",
     clear_cache=False,
     user_schema_config_path="config/schema_config.yaml",
     delimiter="¦",
+    output_directory=output_directory,
 )
+driver.start_bl_adapter() # for resume functionality
 
 # create CKG adapter
 adapter = CKGAdapter(
     limit_import_count=100, # limit_import_count is for testing; remove or set to 0 for full import
-    biocypher_driver=driver
+    biocypher_driver=driver,
+    dirname=output_directory,
+    resume=True,
 ) 
 
 # perform import
