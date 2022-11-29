@@ -3,8 +3,6 @@ import biocypher
 
 # start biocypher
 driver = biocypher.Driver(
-    offline=True,  
-    strict_mode=True,
     db_name="large",
     clear_cache=False,
     user_schema_config_path="config/schema_config.yaml",
