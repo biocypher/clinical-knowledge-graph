@@ -15,14 +15,15 @@ driver.start_bl_adapter() # for resume functionality
 
 # create CKG adapter
 adapter = CKGAdapter(
-    limit_import_count=100, # limit_import_count is for testing; remove or set to 0 for full import
+    limit_import_count=0, # for testing; remove or set to 0 for full import
     biocypher_driver=driver,
     dirname=output_directory,
     resume=True,
 ) 
 
 # perform import
-# TODO find a way to pass nodes and edges to the driver instead of the driver to the adapter
+# TODO find a way to pass nodes and edges to the driver instead of the driver to
+# the adapter
 adapter.write_nodes()
 adapter.write_edges()
 

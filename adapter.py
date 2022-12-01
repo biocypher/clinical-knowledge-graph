@@ -54,11 +54,12 @@ class CKGAdapter:
         with open("data/node_labels.csv", "r") as f:
             node_labels = f.read().splitlines()
 
-        # node_labels = ["Complex"]
+        # node_labels = ["Disease", "Tissue"]
 
         for label in node_labels:
             if self.resume:
                 if label in self.completed_entries:
+                    logger.info(f"Skipping {label} because it is already completed.")
                     continue
 
             with self.driver.session() as session:
@@ -67,6 +68,11 @@ class CKGAdapter:
                 session.read_transaction(
                     self._get_node_ids_and_write_batches_tx, label
                 )
+
+            # add for resume
+            if self.resume:
+                self.completed_entries.add(label)
+                self._write_resume_file()
 
     def write_edges(self) -> None:
         """
@@ -82,13 +88,17 @@ class CKGAdapter:
 
         # rel_labels = [
         #     ("Clinically_relevant_variant", "ASSOCIATED_WITH", "Disease"),
+        #     ("Protein", "MENTIONED_IN_PUBLICATION", "Publication"),
+        #     ("Tissue", "MENTIONED_IN_PUBLICATION", "Publication"),
         # ]
         # rel_labels = []
 
         for src, typ, tar in rel_labels:
 
+            concat = f"{typ}_{src}_{tar}"
+
             # skip some types
-            if not typ in [
+            if typ in [
                 "VARIANT_FOUND_IN_CHROMOSOME",
                 "LOCATED_IN",
                 "HAS_STRUCTURE",
@@ -97,19 +107,27 @@ class CKGAdapter:
                 "VARIANT_IS_CLINICALLY_RELEVANT",
                 "IS_A_KNOWN_VARIANT",
             ]:
-                if self.resume:
-                    if typ in self.completed_entries:
-                        continue
+                continue
 
-                with self.driver.session() as session:
-                    # writing of one type needs to be completed inside
-                    # this session
-                    session.read_transaction(
-                        self._get_rel_ids_and_write_batches_tx,
-                        src,
-                        typ,
-                        tar,
-                    )
+            if self.resume:
+                if concat in self.completed_entries:
+                    logger.info(f"Skipping {concat} because it is already completed.")
+                    continue
+
+            with self.driver.session() as session:
+                # writing of one type needs to be completed inside
+                # this session
+                session.read_transaction(
+                    self._get_rel_ids_and_write_batches_tx,
+                    src,
+                    typ,
+                    tar,
+                )
+
+            # add for resume
+            if self.resume:
+                self.completed_entries.add(concat)
+                self._write_resume_file()
 
     def _get_node_ids_and_write_batches_tx(
         self,
@@ -143,10 +161,6 @@ class CKGAdapter:
 
                 # write last batch
                 self._write_nodes(id_batch, label)
-        
-        # add for resume
-        self.completed_entries.add(label)
-        self._write_resume_file()
 
     def _get_rel_ids_and_write_batches_tx(
         self,
@@ -182,10 +196,6 @@ class CKGAdapter:
             else:
                 self._write_edges(id_batch, src, typ, tar)
                 id_batch = []
-
-        # add for resume
-        self.completed_entries.add(typ)
-        self._write_resume_file()
 
     def _write_nodes(self, id_batch, label):
         """
@@ -249,18 +259,7 @@ class CKGAdapter:
                     _tar = _process_node_id(res["m"]["id"], tar)
 
                     # split some relationship types
-                    if typ in [
-                        "MENTIONED_IN_PUBLICATION",
-                        "ASSOCIATED_WITH",
-                        "ANNOTATED_IN_PATHWAY",
-                        "MAPS_TO",
-                        "VARIANT_FOUND_IN_GENE",
-                        "TRANSLATED_INTO",
-                        "HAS_MODIFIED_SITE",
-                    ]:
-                        _type = "_".join([typ, src, tar])
-                    else:
-                        _type = typ
+                    _type = self._split_type(typ, src, tar)
                     _props = {}
 
                     # add properties
@@ -288,6 +287,21 @@ class CKGAdapter:
         self.biocypher_driver.write_edges(
             edges=edge_gen(),
         )
+
+    def _split_type(self, typ, src, tar):
+        if typ in [
+                    "MENTIONED_IN_PUBLICATION",
+                    "ASSOCIATED_WITH",
+                    "ANNOTATED_IN_PATHWAY",
+                    "MAPS_TO",
+                    "VARIANT_FOUND_IN_GENE",
+                    "TRANSLATED_INTO",
+                    "HAS_MODIFIED_SITE",
+                ]:
+            _type = "_".join([typ, src, tar])
+        else:
+            _type = typ
+        return _type
 
     def _write_resume_file(self):
         """
@@ -318,12 +332,15 @@ class CKGAdapter:
                 # split file at dash, use first part as label
                 label = file.split("-")[0]
 
-                # if dot in label, split at dot and use second part
-                if "." in label:
-                    label = label.split(".")[1]
+                # # if dot in label, split at dot and use second part
+                # if "." in label:
+                #     label = label.split(".")[1]
 
                 # get CKG label from biocypher reverse translate
                 label = self.biocypher_driver.bl_adapter.reverse_translate_term(label)
+
+                if not label:
+                    continue
 
                 if isinstance(label, list):
 
