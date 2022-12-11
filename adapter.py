@@ -15,7 +15,7 @@ logger.debug(f"Loading module {__name__}.")
 class CKGAdapter:
     def __init__(
         self,
-        dirname: str,
+        dirname: str = None,
         biocypher_driver = None,
         id_batch_size: int = int(1e6),
         limit_import_count: int = 0,
@@ -327,31 +327,32 @@ class CKGAdapter:
                 for line in f:
                     self.completed_entries.add(line.strip())
 
-            # delete all files that are not in completed entries
-            for file in os.listdir(self.output_dir):
-                # split file at dash, use first part as label
-                label = file.split("-")[0]
+            # # delete all files that are not in completed entries
+            # # not working yet
+            # for file in os.listdir(self.output_dir):
+            #     # split file at dash, use first part as label
+            #     label = file.split("-")[0]
 
-                # # if dot in label, split at dot and use second part
-                # if "." in label:
-                #     label = label.split(".")[1]
+            #     # # if dot in label, split at dot and use second part
+            #     # if "." in label:
+            #     #     label = label.split(".")[1]
 
-                # get CKG label from biocypher reverse translate
-                label = self.biocypher_driver.bl_adapter.reverse_translate_term(label)
+            #     # get CKG label from biocypher reverse translate
+            #     label = self.biocypher_driver.bl_adapter.reverse_translate_term(label)
 
-                if not label:
-                    continue
+            #     if not label:
+            #         continue
 
-                if isinstance(label, list):
+            #     if isinstance(label, list):
 
-                    for lab in label:
-                        if lab not in self.completed_entries:
-                            os.remove(os.path.join(self.output_dir, file))
+            #         for lab in label:
+            #             if lab not in self.completed_entries:
+            #                 os.remove(os.path.join(self.output_dir, file))
                             
-                else:
+            #     else:
 
-                    if label not in self.completed_entries:
-                        os.remove(os.path.join(self.output_dir, file))
+            #         if label not in self.completed_entries:
+            #             os.remove(os.path.join(self.output_dir, file))
 
 
 
