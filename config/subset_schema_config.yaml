@@ -1,0 +1,77 @@
+Title: BioCypher graph schema configuration file
+
+# ---
+# "Named Things"
+# ---
+
+disease:
+  represented_as: node
+  preferred_id: doid
+  label_in_input: Disease
+  properties:
+    name: str
+    description: str
+
+gene:
+  represented_as: node
+  preferred_id: hgnc
+  label_in_input: Gene
+  properties:
+    name: str
+    taxid: int
+
+pathway:
+  represented_as: node
+  preferred_id: smpdb
+  label_in_input: Pathway
+  properties:
+    name: str
+    description: str
+
+protein:
+  represented_as: node
+  preferred_id: uniprot
+  label_in_input: Protein
+  properties:
+    name: str
+    taxid: int
+
+article:
+  represented_as: node
+  preferred_id: pmid
+  label_in_input: Publication
+  properties:
+    DOI: str
+    linkout: str
+    year: int
+
+# ---
+# Associations
+# ---
+
+protein to article association:
+  is_a: information content entity to named thing association
+  represented_as: edge
+  label_in_input: MENTIONED_IN_PUBLICATION_Protein_Publication
+
+disease to article association:
+  is_a: information content entity to named thing association
+  represented_as: edge
+  label_in_input: MENTIONED_IN_PUBLICATION_Disease_Publication
+
+protein to disease association:
+  is_a: entity to disease association
+  represented_as: edge
+  label_in_input: [
+    ASSOCIATED_WITH_Protein_Disease,
+    DETECTED_IN_PATHOLOGY_SAMPLE
+  ]
+
+protein protein interaction:
+  is_a: association
+  represented_as: node
+  label_in_input: [COMPILED_INTERACTS_WITH, CURATED_INTERACTS_WITH, ACTS_ON]
+
+gene to gene product relationship:
+  represented_as: edge
+  label_in_input: TRANSLATED_INTO_Gene_Protein
