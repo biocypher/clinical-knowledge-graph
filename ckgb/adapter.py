@@ -20,6 +20,8 @@ class CKGAdapter:
         id_batch_size: int = int(1e6),
         limit_import_count: int = 0,
         resume: bool = False,
+        node_file: str = "data/all_nodes.csv",
+        edge_file: str = "data/granular_relationships.csv",
     ):
 
         if resume and not dirname:
@@ -30,6 +32,8 @@ class CKGAdapter:
         self.limit_import_count = limit_import_count
         self.output_dir = dirname
         self.resume = resume
+        self.node_file = node_file
+        self.edge_file = edge_file
 
         if resume:
             self.resume_file = os.path.join(dirname, "resume.txt")
@@ -51,7 +55,7 @@ class CKGAdapter:
         """
 
         # get node labels from csv
-        with open("data/node_labels.csv", "r") as f:
+        with open(self.node_file, "r") as f:
             node_labels = f.read().splitlines()
 
         # node_labels = ["Disease", "Tissue"]
@@ -80,7 +84,7 @@ class CKGAdapter:
         """
 
         # get node labels from csv
-        with open("data/granular_relationships.txt", "r") as f:
+        with open(self.edge_file, "r") as f:
             rel_labels = f.read().splitlines()
 
         rel_labels = rel_labels[1:]
