@@ -21,7 +21,7 @@ class CKGAdapter:
         limit_import_count: int = 0,
         resume: bool = False,
         node_file: str = "data/all_nodes.csv",
-        edge_file: str = "data/granular_relationships.csv",
+        edge_file: str = "data/all_granular_relationships.csv",
     ):
 
         if resume and not dirname:

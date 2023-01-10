@@ -8,13 +8,13 @@ import biocypher
 # NOTE: resume functionality is a simple text based check; delete output folder
 # to reset. If nothing is written in a BioCypher run, you may get an 
 # `AttributeError: 'NoneType' object has no attribute 'write_import_call'`
-output_directory = "biocypher-out/subset"
+output_directory = "biocypher-out/embedding"
 
 # start biocypher
 driver = biocypher.Driver(
-    db_name="subset",
+    db_name="embedding",
     clear_cache=False,
-    user_schema_config_path="config/subset_schema_config.yaml",
+    user_schema_config_path="config/embedding_schema_config.yaml",
     delimiter="¦",
     output_directory=output_directory,
 )
@@ -26,8 +26,8 @@ adapter = CKGAdapter(
     biocypher_driver=driver,
     dirname=output_directory,
     resume=True,
-    node_file="data/subset_nodes.csv",
-    edge_file="data/subset_relationships.csv",
+    node_file="data/embedding_nodes.csv",
+    edge_file="data/embedding_relationships.csv",
 ) 
 
 # perform import

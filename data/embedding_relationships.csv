@@ -1,0 +1,4 @@
+Source,Relationship,Target
+Analytical_sample,HAS_QUANTIFIED_PROTEIN,Protein
+Biological_sample,BELONGS_TO_SUBJECT,Subject
+Biological_sample,SPLITTED_INTO,Analytical_sample

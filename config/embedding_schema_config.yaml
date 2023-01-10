@@ -1,0 +1,55 @@
+Title: BioCypher graph schema configuration file
+
+# ---
+# "Named Things"
+# ---
+
+analytical sample:
+  is_a: material sample
+  represented_as: node
+  label_in_input: Analytical_sample
+  properties:
+    external_id: str
+    group: str
+    group2: str
+
+biological sample:
+  is_a: material sample
+  represented_as: node
+  label_in_input: Biological_sample
+  properties:
+    external_id: str
+
+protein:
+  represented_as: node
+  preferred_id: uniprot
+  label_in_input: Protein
+  properties:
+    name: str
+    taxid: int
+
+subject:
+  is_a: individual organism
+  represented_as: node
+  label_in_input: Subject
+  properties:
+    external_id: str
+
+# ---
+# Associations
+# ---
+
+analytical sample to protein association:
+  is_a: association
+  represented_as: edge
+  label_in_input: HAS_QUANTIFIED_PROTEIN
+
+biological sample to analytical sample association:
+  is_a: association
+  represented_as: edge
+  label_in_input: SPLITTED_INTO
+
+biological sample to subject association:
+  is_a: association
+  represented_as: edge
+  label_in_input: BELONGS_TO_SUBJECT
