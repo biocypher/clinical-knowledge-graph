@@ -11,7 +11,7 @@ import biocypher
 driver = biocypher.Driver(
     db_name="strict",
     clear_cache=False,
-    user_schema_config_path="config/schema_config.yaml",
+    user_schema_config_path="config/full_schema_config.yaml",
     delimiter="¦",
     # output_directory=output_directory,
 )
