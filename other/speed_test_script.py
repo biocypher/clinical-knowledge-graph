@@ -1,7 +1,7 @@
 import os
 import time
 import itertools
-from speed_test import SpeedTest
+from ckgb.speed_test import SpeedTest
 
 st = SpeedTest()
 

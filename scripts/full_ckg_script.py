@@ -1,6 +1,10 @@
-from adapter import CKGAdapter
+import sys
+sys.path.append("")  # vscode hack, may not be necessary
+
+from ckgb.adapter import CKGAdapter
 import biocypher
 
+# optionally set output directory (e.g. for resuming)
 # output_directory = "biocypher-out/strict_complete"
 
 # start biocypher
