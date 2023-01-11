@@ -8,7 +8,6 @@ BioCypher-compatible format using the adapter class and the configuration files
 in `config/`. For more information on BioCypher, please visit 
 https://biocypher.org.
 
-uu
 ## Installation
 The project uses [Poetry](https://python-poetry.org). You can install like this:
 
