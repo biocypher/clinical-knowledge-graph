@@ -9,7 +9,7 @@ in `config/`. For more information on BioCypher, please visit
 https://biocypher.org.
 
 ## Installation
-The project uses [Poetry](https://python-poetry.org). You can install like this:
+The project uses [Poetry](https://python-poetry.org). You can install it like this:
 
 ``` 
 git clone https://github.com/saezlab/CKG-BioCypher.git 
