@@ -8,12 +8,14 @@ BioCypher-compatible format using the adapter class and the configuration files
 in `config/`. For more information on BioCypher, please visit 
 https://biocypher.org.
 
-uu
 ## Installation
-The project uses [Poetry](https://python-poetry.org). You can install like this:
+The project uses [Poetry](https://python-poetry.org). You can install it like this:
 
-``` git clone https://github.com/saezlab/CKG-BioCypher.git cd CKG-BioCypher
-poetry install ```
+``` 
+git clone https://github.com/saezlab/CKG-BioCypher.git 
+cd CKG-BioCypher
+poetry install 
+```
 
 Poetry will create a virtual environment according to your configuration (either
 centrally or in the project folder). You can activate it by running `poetry
