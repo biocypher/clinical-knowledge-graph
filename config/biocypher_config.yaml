@@ -1,5 +1,5 @@
-neo4j_pw: your_password_here
-
-offline: true
-
-strict_mode: true
+biocypher:
+  offline: true
+  strict_mode: true
+neo4j:
+  password: your_password_here
