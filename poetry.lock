@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "biocypher"
-version = "0.5.4"
+version = "0.5.6"
 description = "A unifying framework for biomedical research knowledge graphs"
 category = "main"
 optional = false
@@ -259,8 +259,8 @@ appdirs = [
     {file = "appdirs-1.4.4.tar.gz", hash = "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41"},
 ]
 biocypher = [
-    {file = "biocypher-0.5.4-py3-none-any.whl", hash = "sha256:2cec3694fca12b67cca406f68f027f9c54c0649a7bbd412297143b4f7218ad6f"},
-    {file = "biocypher-0.5.4.tar.gz", hash = "sha256:1e9ea2c385269fbcb07685a9125a0a3539e280c7726f659825f43c564dfe0a22"},
+    {file = "biocypher-0.5.6-py3-none-any.whl", hash = "sha256:a0c857d56f496684413e0b9975918b2f012f087d2295c8529d5ee2bdc651bd6b"},
+    {file = "biocypher-0.5.6.tar.gz", hash = "sha256:3e60250bf1aaa0a835e32e486252afe025daf1d8201a295bfffd579dc0788fe4"},
 ]
 colorama = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
