@@ -29,7 +29,7 @@ treelib = "^1.6.1"
 type = "git"
 url = "https://github.com/saezlab/BioCypher.git"
 reference = "modularise"
-resolved_reference = "198876c15af431f19e0cd6a459a8ec8549ec4d79"
+resolved_reference = "832106a3a181275861cf8ce518a47bd4431901f2"
 
 [[package]]
 name = "colorama"

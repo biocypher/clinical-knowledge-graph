@@ -89,8 +89,7 @@ sequence variant:
     biotype: str
 
 complex:
-  synonym_for: macromolecular complex mixin 
-  # TODO new biolink has macromolecular complex, but BMT does not provide it
+  synonym_for: macromolecular complex
   represented_as: node
   label_in_input: Complex
   properties:
@@ -342,6 +341,7 @@ variant to protein association:
   label_in_input: VARIANT_FOUND_IN_PROTEIN
 
 variant to gene association: # -> known... and somatic...
+  is_a: association
   represented_as: node
   source: [known.sequence variant, somatic.sequence variant]
   target: gene
@@ -351,10 +351,12 @@ variant to gene association: # -> known... and somatic...
   ]
 
 variant to disease association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Clinically_relevant_variant_Disease
   
 variant to gwas study association:
+  is_a: association
   represented_as: edge
   label_in_input: VARIANT_FOUND_IN_GWAS
 
@@ -367,34 +369,42 @@ protein to disease association:
   ]
 
 metabolite to disease association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Metabolite_Disease
 
 protein to biological process association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Protein_Biological_process
 
 protein to expression site association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Protein_Tissue
 
 metabolite to tissue association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
 metabolite to tissue association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Metabolite_Tissue
 
 macromolecular machine to biological process association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Complex_Biological_process
 
 protein to molecular activity association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Protein_Molecular_function
 
 protein to cellular component association:
+  is_a: association
   represented_as: edge
   label_in_input: [
     ASSOCIATED_WITH_Protein_Cellular_component,
@@ -402,6 +412,7 @@ protein to cellular component association:
   ]
 
 metabolite to protein association:
+  is_a: association
   represented_as: edge
   label_in_input: ASSOCIATED_WITH_Metabolite_Protein
 
@@ -411,85 +422,105 @@ protein protein interaction:
   label_in_input: [COMPILED_INTERACTS_WITH, CURATED_INTERACTS_WITH, ACTS_ON]
 
 peptide to protein association:
+  is_a: association
   represented_as: edge
   label_in_input: BELONGS_TO_PROTEIN
 
 is_a:
+  is_a: association
   represented_as: edge
   label_as_edge: is_a
   label_in_input: HAS_PARENT
 
 metabolite to pathway association:
+  is_a: association
   represented_as: edge
   label_in_input: ANNOTATED_IN_PATHWAY_Metabolite_Pathway
 
 protein to pathway association:
+  is_a: association
   represented_as: edge
   label_in_input: ANNOTATED_IN_PATHWAY_Protein_Pathway
 
 gene to gene product relationship:
+  is_a: association
   represented_as: edge
   label_in_input: TRANSLATED_INTO_Gene_Protein
 
 transcript to protein relationship:
+  is_a: association
   represented_as: edge
   label_in_input: TRANSLATED_INTO_Transcript_Protein
 
 gene to transcript relationship: 
+  is_a: association
   represented_as: edge
   label_in_input: TRANSCRIBED_INTO
 
 protein to amino acid association:
+  is_a: association
   represented_as: edge
   label_in_input: HAS_SEQUENCE
 
 protein to protein domain association:
+  is_a: association
   represented_as: edge
   label_in_input: FOUND_IN_PROTEIN
 
 protein to post translational modification association:
+  is_a: association
   represented_as: edge
   label_in_input: [
     HAS_MODIFICATION, HAS_MODIFIED_SITE_Protein_Modified_protein
   ]
 
 peptide to post translational modification association:
+  is_a: association
   represented_as: edge
   label_in_input: HAS_MODIFIED_SITE_Peptide_Modified_protein
 
 sequence variant to protein protein interaction association:
+  is_a: association
   represented_as: node
   label_in_input: CURATED_AFFECTS_INTERACTION_WITH
 
 protein to macromolecular complex association:
+  is_a: association
   represented_as: edge
   label_in_input: IS_SUBUNIT_OF
 
 gwas study to clinical finding association:
+  is_a: association
   represented_as: edge
   label_in_input: STUDIES_TRAIT
 
 gwas study to article association:
+  is_a: association
   represented_as: edge
   label_in_input: PUBLISHED_IN
 
 clinical finding to disease association:
+  is_a: association
   represented_as: edge
   label_in_input: MAPS_TO_Experimental_factor_Disease
 
 clinical finding to phenotypic feature association:
+  is_a: association
   represented_as: edge
   label_in_input: MAPS_TO_Experimental_factor_Phenotype
 
 clinical finding to disease or phenotypic feature association:
+  is_a: association
   represented_as: edge
   label_in_input: MAPS_TO_Experimental_factor_Clinical_variable
 
 food to metabolite association:
+  is_a: association
   represented_as: edge
   label_in_input: HAS_CONTENT
 
 protein as a marker of disease association:
+  is_a: association
   represented_as: edge
   label_in_input: IS_BIOMARKER_OF_DISEASE
   # TODO: currently excludes properties that change between multiple
@@ -503,26 +534,32 @@ protein as a marker of disease association:
     reference: str
 
 agent to disease association:
+  is_a: association
   represented_as: edge
   label_in_input: STUDIES_DISEASE
 
 agent to tissue association:
+  is_a: association
   represented_as: edge
   label_in_input: STUDIES_TISSUE
 
 contributor association:
+  is_a: association
   represented_as: edge
   label_in_input: PARTICIPATES_IN
 
 lead contributor association:
+  is_a: association
   represented_as: edge
   label_in_input: IS_RESPONSIBLE
 
 agent to agent association:
+  is_a: association
   represented_as: edge
   label_in_input: FOLLOWS_UP_PROJECT
 
 agent to disease or phenotypic feature association:
+  is_a: association
   represented_as: edge
   label_in_input: STUDIES_INTERVENTION
 

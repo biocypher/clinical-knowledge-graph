@@ -1,5 +1,0 @@
-biocypher:
-  offline: true
-  strict_mode: true
-neo4j:
-  password: your_password_here

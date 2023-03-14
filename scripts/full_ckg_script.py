@@ -1,28 +1,19 @@
 import sys
-sys.path.append("")  # vscode hack, may not be necessary
+sys.path.append("")
 
 from ckgb.adapter import CKGAdapter
 import biocypher
 
-# optionally set output directory (e.g. for resuming)
-# output_directory = "biocypher-out/strict_complete"
-
 # start biocypher
 driver = biocypher.Driver(
-    db_name="strict",
-    clear_cache=False,
-    user_schema_config_path="config/full_schema_config.yaml",
-    delimiter="¦",
-    # output_directory=output_directory,
+    biocypher_config_path="config/biocypher_config_full.yaml",
 )
-driver.start_ontology_adapter() # for resume functionality
 
 # create CKG adapter
 adapter = CKGAdapter(
     limit_import_count=100, # for testing; remove or set to 0 for full import
     biocypher_driver=driver,
     # dirname=output_directory,
-    # resume=True,
 ) 
 
 # perform import
