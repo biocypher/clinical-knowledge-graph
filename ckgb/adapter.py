@@ -5,7 +5,6 @@
 BioCypher - CKG prototype
 """
 
-import os
 import neo4j_utils as nu
 from biocypher._logger import logger
 
@@ -19,25 +18,16 @@ class CKGAdapter:
         biocypher_driver = None,
         id_batch_size: int = int(1e6),
         limit_import_count: int = 0,
-        resume: bool = False,
         node_file: str = "data/all_nodes.csv",
         edge_file: str = "data/all_granular_relationships.csv",
     ):
-
-        if resume and not dirname:
-            raise ValueError("dirname must be set if resume is True.")
 
         self.biocypher_driver = biocypher_driver
         self.id_batch_size = id_batch_size
         self.limit_import_count = limit_import_count
         self.output_dir = dirname
-        self.resume = resume
         self.node_file = node_file
         self.edge_file = edge_file
-
-        if resume:
-            self.resume_file = os.path.join(dirname, "resume.txt")
-            self._load_resume_file()
 
         # read driver
         self.driver = nu.Driver(
@@ -61,10 +51,6 @@ class CKGAdapter:
         # node_labels = ["Disease", "Tissue"]
 
         for label in node_labels:
-            if self.resume:
-                if label in self.completed_entries:
-                    logger.info(f"Skipping {label} because it is already completed.")
-                    continue
 
             with self.driver.session() as session:
                 # writing of one type needs to be completed inside
@@ -72,11 +58,6 @@ class CKGAdapter:
                 session.read_transaction(
                     self._get_node_ids_and_write_batches_tx, label
                 )
-
-            # add for resume
-            if self.resume:
-                self.completed_entries.add(label)
-                self._write_resume_file()
 
     def write_edges(self) -> None:
         """
@@ -113,11 +94,6 @@ class CKGAdapter:
             ]:
                 continue
 
-            if self.resume:
-                if concat in self.completed_entries:
-                    logger.info(f"Skipping {concat} because it is already completed.")
-                    continue
-
             with self.driver.session() as session:
                 # writing of one type needs to be completed inside
                 # this session
@@ -127,11 +103,6 @@ class CKGAdapter:
                     typ,
                     tar,
                 )
-
-            # add for resume
-            if self.resume:
-                self.completed_entries.add(concat)
-                self._write_resume_file()
 
     def _get_node_ids_and_write_batches_tx(
         self,
@@ -306,58 +277,6 @@ class CKGAdapter:
         else:
             _type = typ
         return _type
-
-    def _write_resume_file(self):
-        """
-        Write the set of completed entities to a file in the current output
-        directory.
-        """
-        
-        with open(self.resume_file, "w") as f:
-            for entry in self.completed_entries:
-                f.write(f"{entry}\n")
-
-    def _load_resume_file(self):
-        """
-        Load the set of completed entities from a file in the current output
-        directory.
-        """
-        
-        self.completed_entries = set()
-
-        if os.path.exists(self.resume_file):
-        
-            with open(self.resume_file, "r") as f:
-                for line in f:
-                    self.completed_entries.add(line.strip())
-
-            # # delete all files that are not in completed entries
-            # # not working yet
-            # for file in os.listdir(self.output_dir):
-            #     # split file at dash, use first part as label
-            #     label = file.split("-")[0]
-
-            #     # # if dot in label, split at dot and use second part
-            #     # if "." in label:
-            #     #     label = label.split(".")[1]
-
-            #     # get CKG label from biocypher reverse translate
-            #     label = self.biocypher_driver.bl_adapter.reverse_translate_term(label)
-
-            #     if not label:
-            #         continue
-
-            #     if isinstance(label, list):
-
-            #         for lab in label:
-            #             if lab not in self.completed_entries:
-            #                 os.remove(os.path.join(self.output_dir, file))
-                            
-            #     else:
-
-            #         if label not in self.completed_entries:
-            #             os.remove(os.path.join(self.output_dir, file))
-
 
 
 def get_nodes_tx(tx, ids):
