@@ -8,28 +8,21 @@ python-versions = "*"
 
 [[package]]
 name = "biocypher"
-version = "0.5.3"
+version = "0.5.4"
 description = "A unifying framework for biomedical research knowledge graphs"
 category = "main"
 optional = false
-python-versions = "^3.9"
-develop = false
+python-versions = ">=3.9,<4.0"
 
 [package.dependencies]
 appdirs = "*"
 more_itertools = "*"
 neo4j-utils = "0.0.7"
-networkx = "^3.0"
+networkx = ">=3.0,<4.0"
 PyYAML = ">=5.0"
-rdflib = "^6.2.0"
-stringcase = "^1.2.0"
-treelib = "^1.6.1"
-
-[package.source]
-type = "git"
-url = "https://github.com/saezlab/BioCypher.git"
-reference = "modularise"
-resolved_reference = "832106a3a181275861cf8ce518a47bd4431901f2"
+rdflib = ">=6.2.0,<7.0.0"
+stringcase = ">=1.2.0,<2.0.0"
+treelib = ">=1.6.1,<2.0.0"
 
 [[package]]
 name = "colorama"
@@ -258,14 +251,17 @@ future = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "72f89b8fafd40cc74e855843736574c75caa823fa6652ddf4fb07b4eac554d1d"
+content-hash = "55cb07d75a269f78a7dad449bb2a964eabc7594e6572fd72ab33c316ee64c01a"
 
 [metadata.files]
 appdirs = [
     {file = "appdirs-1.4.4-py2.py3-none-any.whl", hash = "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"},
     {file = "appdirs-1.4.4.tar.gz", hash = "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41"},
 ]
-biocypher = []
+biocypher = [
+    {file = "biocypher-0.5.4-py3-none-any.whl", hash = "sha256:2cec3694fca12b67cca406f68f027f9c54c0649a7bbd412297143b4f7218ad6f"},
+    {file = "biocypher-0.5.4.tar.gz", hash = "sha256:1e9ea2c385269fbcb07685a9125a0a3539e280c7726f659825f43c564dfe0a22"},
+]
 colorama = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
