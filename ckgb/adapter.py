@@ -192,6 +192,8 @@ class CKGAdapter:
 
                     if "name" in res["n"]:
                         res["n"]["name"] = res["n"]["name"].replace("\'","")
+                    if "description" in res["n"]:
+                        res["n"]["description"] = res["n"]["description"].replace("\'","")
 
                     _id = _process_node_id(res["n"]["id"], label)
                     _type = label
