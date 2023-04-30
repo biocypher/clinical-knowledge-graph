@@ -6,3 +6,4 @@ neo4j:
   database_name: subset
   password: your_password_here
   delimiter: '¦'
+  quote_character: '"'
