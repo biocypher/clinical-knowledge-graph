@@ -30,7 +30,7 @@ For getting the data from the CKG, an instance of the CKG needs to be running in
 
 ### Configuration
 
-Now the credentials for the CKG Neo4j instance need to be configured within the [CKGAdapter](https://github.com/biocypher/clinical-knowledge-graph/blob/main/ckgb/adapter.py).
+Now the credentials for the CKG Neo4j instance need to be configured within the `ckgb/adapter.py`.
 
 
 ## Projects
@@ -61,7 +61,7 @@ orchestrated by the import script at `scripts/subset_ckg_script.py`.
 
 To create a subset you need to configure the subset schema in `config/subset_schema_config.yaml` and insert the used node and relationship names of the subset in the `data/subset_nodes.csv` and `data/subset_relationships.csv`. To check, which nodes and relationships exist in the CKG you can have a look at `data/all_nodes.csv` and `data/all_granular_relationships.csv`.
 
-If you would like to insert new relationship properties, you need to adapt the `_write_edges` method in the adapter and specify, how the properties of each relationship type should be handeled.
+If you would like to insert relationship properties, you need to adapt the `_write_edges` method in the adapter and specify, how the properties of each relationship type should be handeled.
 
 Finally the subsetting procedure can be run with ``` poetry run python scripts/subset_ckg_script.py ```.
 The script will create a new database in BioCypher format in the `biocypher-out`
