@@ -24,6 +24,4 @@ adapter.write_edges()
 
 # convenience and import stats
 bc.write_import_call()
-bc.log_missing_bl_types()
-bc.log_duplicates()
-bc.show_ontology_structure()
+bc.summary()
