@@ -31,10 +31,10 @@ class CKGAdapter:
 
         # read driver
         self.driver = nu.Driver(
-            db_name="graph.db",
+            db_name="neo4j",
             db_uri="bolt://localhost:7687",
             db_user="neo4j",
-            db_passwd="testtest",
+            db_passwd="your_password_here",
             multi_db=False,
             max_connection_lifetime=7200,
         )
