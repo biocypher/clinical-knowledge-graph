@@ -8,3 +8,4 @@ speed_test
 .DS_Store
 *.swp
 .venv
+.idea
