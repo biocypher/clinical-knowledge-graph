@@ -1,14 +1,13 @@
 [tool.poetry]
 name = "ckg"
-version = "0.1.0"
+version = "0.2.0"
 description = "CKG migration to BioCypher"
 authors = ["Sebastian Lobentanzer <sebastian.lobentanzer@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pandas = "^1.4.3"
-# biocypher = {path = "../BioCypher", develop = true}
-biocypher = "^0.5.4"
+pandas = "^2.0.1"
+biocypher = "^0.5.38"
 
 [tool.poetry.dev-dependencies]
 
