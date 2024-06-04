@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  ckg:
+    container_name: neo4j
+    image: neo4j:4.2.19-community
+    environment:
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+      - NEO4J_dbms_security_auth__enabled=false
+      - NEO4J_dbms_default__database=graph.db
+      - NEO4J_AUTH=neo4j/your_password_here
+      - NEO4JLABS_PLUGINS=["apoc", "graph-data-science"]
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - EXTENSION_SCRIPT=/backups/neo4j-init.sh
+    volumes:
+      - ./neo4j/backups:/backups
+      - ./neo4j/data:/var/lib/neo4j/data
+      - ./neo4j/logs:/logs
+      - ./neo4j/import:/import
+      - ./neo4j/plugins:/plugins
+
+    ports:
+      - "0.0.0.0:7474:7474"
+      - "0.0.0.0:7687:7687"
+
+networks:
+  default:
+    name: ckgnet
