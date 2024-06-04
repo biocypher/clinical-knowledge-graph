@@ -3,6 +3,7 @@ name = "ckg"
 version = "0.2.0"
 description = "CKG migration to BioCypher"
 authors = ["Sebastian Lobentanzer <sebastian.lobentanzer@gmail.com>"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.9"
