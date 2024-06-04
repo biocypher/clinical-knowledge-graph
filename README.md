@@ -31,7 +31,9 @@ For getting the data from the CKG, an instance of the CKG needs to be running in
 Neo4j. For setting this up, please refer to the [CKG
 docs](https://ckg.readthedocs.io/en/latest/ckg_builder/graphdb-builder.html#building-ckg-s-graph-database-from-a-dump-file).
 
-Alternatively, use the pre-made CKG Neo4j database dump instance setup configuration provided in `ckg_dump`, follow the README in it.
+Alternatively, you can use the pre-made CKG Neo4j database dump instance setup
+configuration provided in the `ckg_dump` directory by following the README in
+it.
 
 ### Configuration
 

@@ -1,14 +1,22 @@
 # Building CKG’s Graph Database from a Dump File
 
 ## Step 1: Download CKG Neo4j database dump 
-For additional info about the dump, read [CKG docs](https://ckg.readthedocs.io/en/latest/ckg_builder/graphdb-builder.html?highlight=dump#more-on-the-dump-file
-The dump of CKG neo4j database v4.2.3 is available [here](https://data.mendeley.com/datasets/mrcf7f4tc2/3) or oter set of links is provided in [the docs](https://ckg.readthedocs.io/en/latest/ckg_builder/graphdb-builder.html?highlight=dump#more-on-the-dump-file)
 
-*Option A*: download using python:
+For additional info about the dump, please read the [CKG
+docs](https://ckg.readthedocs.io/en/latest/ckg_builder/graphdb-builder.html?highlight=dump#more-on-the-dump-file).
+The dump of the CKG neo4j database v4.2.3 is available
+[here](https://data.mendeley.com/datasets/mrcf7f4tc2/3); another set of links is
+provided in [the
+docs](https://ckg.readthedocs.io/en/latest/ckg_builder/graphdb-builder.html?highlight=dump#more-on-the-dump-file)
+
+*Option A*: download using Python (in this directory):
+
 ```
-python3 download.py
+poetry run python download.py
 ```
+
 *Option B*: download manually and verify with md5sum:
+
 ```
 wget -P ./neo4j/backups/graph.db/ "https://datashare.biochem.mpg.de/s/kCW7uKZYTfN8mwg/download" -O ./ckg_latest_4.2.3.dump
 wget -P ./neo4j/backups/graph.db/ "https://datashare.biochem.mpg.de/s/fP6MKhLRfceWwxC/download" -O ./data.zip
@@ -17,15 +25,21 @@ wget -P ./neo4j/plugins/ https://github.com/neo4j-contrib/neo4j-apoc-procedures/
 md5sum -c ./ckg_latest.md5
 ```
 
-## Step 2: Initilize NEO4J with the dump:
-Initialization is automated and depends on presence of the above mentioned files in `./neo4j/backups/graph.db/`:
+## Step 2: Initilize Neo4j with the dump:
+
+Initialization is automated and depends on presence of the above mentioned files
+in `./neo4j/backups/graph.db/`. To start the service, run in this directory
+(`ckg_dump`):
+
 ```
-sudo docker-compose up
+docker compose up -d
 ```
 
-After initialization the file `./neo4j/data/neo4j-import-done.flag` will be created denoting successful import.
-To reset the state of the graph to the dumped state, remove `./neo4j/data/` folder contents:
-```
-sudo docker-compose down
-sudo rm -fr ./neo4j/data/*
+After initialization, the file `./neo4j/data/neo4j-import-done.flag` will be
+created, denoting successful import. To reset the state of the graph to the
+dumped state, remove the contents of the `./neo4j/data/` folder:
+
+``` 
+docker compose down 
+rm -rf ./neo4j/data/*
 ```
