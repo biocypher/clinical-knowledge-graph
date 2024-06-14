@@ -9,3 +9,4 @@ speed_test
 *.swp
 .venv
 .idea
+ckg_dump/

@@ -8,6 +8,16 @@ BioCypher-compatible format using the adapter class and the configuration files
 in `config/`. For more information on BioCypher, please visit 
 https://biocypher.org.
 
+## Important note
+
+The process implemented for adapting CKG data is the least efficient way of
+implementing such a pipeline, as it streams data from one Neo4j instance to
+another. This was an early experiment and also had to be done due to the fact
+that the CKG is only available as a Neo4j dump file. We recommend using a more
+memory- and IO-efficient approach for larger datasets. Simplest and recommended
+is to use a data lake (flat files, hdf5 formats such as Parquet, etc.) as an
+input.
+
 ## Setup and Installation
 
 ### Clone and setup the project
