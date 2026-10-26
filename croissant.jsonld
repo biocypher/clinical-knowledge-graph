@@ -1,0 +1,123 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "sc": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "dct": "http://purl.org/dc/terms/",
+    "bsc": "https://bioschemas.org/profiles/Dataset/1.0-RELEASE/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "samplingRate": "cr:samplingRate",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "@base": "cr_base_iri/"
+  },
+  "@type": "SoftwareSourceCode",
+  "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalTool/1.0-RELEASE/",
+  "@id": "clinical-knowledge-graph-biocypher-adapter",
+  "name": "Clinical Knowledge Graph BioCypher Adapter",
+  "description": "A BioCypher adapter that streams data from a running Clinical Knowledge Graph Neo4j database and generates BioCypher-compatible outputs. It supports full graph migration, configurable subsetting, and preparation of subsets for Bioteque embedding workflows.",
+  "version": "0.2.0",
+  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+  "codeRepository": "https://github.com/biocypher/clinical-knowledge-graph",
+  "creator": [
+    {
+      "@type": "Person",
+      "name": "Sebastian Lobentanzer",
+      "email": "sebastian.lobentanzer@gmail.com"
+    }
+  ],
+  "keywords": [
+    "clinical knowledge graph",
+    "biocypher",
+    "neo4j",
+    "proteomics",
+    "biomedical data"
+  ],
+  "hasPart": [
+    {
+      "@id": "https://doi.org/10.17632/mrcf7f4tc2.3",
+      "@type": "sc:Dataset",
+      "name": "Clinical Knowledge Graph",
+      "description": "A database dump of the Clinical Knowledge Graph (CKG), an open-source platform integrating experimental data, biomedical databases, ontologies, and literature. The published files can be used to restore a Neo4j graph database containing the CKG resources.",
+      "conformsTo": "http://mlcommons.org/croissant/1.0",
+      "citeAs": "Santos, Alberto; Colaço, Ana Rita; Nielsen, Annelaura Bach; Mann, Matthias (2021), “Clinical Knowledge Graph”, Mendeley Data, V3, doi: 10.17632/mrcf7f4tc2.3",
+      "creator": [
+        {
+          "@type": "sc:Person",
+          "name": "Alberto Santos"
+        },
+        {
+          "@type": "sc:Person",
+          "name": "Ana Rita Colaço"
+        },
+        {
+          "@type": "sc:Person",
+          "name": "Annelaura Bach Nielsen"
+        },
+        {
+          "@type": "sc:Person",
+          "name": "Matthias Mann"
+        }
+      ],
+      "datePublished": "2021-08-17T00:00:00Z",
+      "license": "CC-BY-4.0",
+      "url": "https://data.mendeley.com/datasets/mrcf7f4tc2/3",
+      "version": "3",
+      "keywords": [
+        "clinical knowledge graph",
+        "proteomics",
+        "biomedical knowledge graph",
+        "Neo4j",
+        "omics"
+      ],
+      "distribution": [
+        {
+          "@id": "clinical-knowledge-graph-1/ckg-latest-4.2.3-dump",
+          "@type": "cr:FileObject",
+          "name": "ckg_latest_4.2.3.dump",
+          "description": "Neo4j database dump for restoring the Clinical Knowledge Graph.",
+          "contentUrl": "https://data.mendeley.com/public-files/datasets/mrcf7f4tc2/files/ffaab45e-e15c-412d-b63b-5df681a2e303/file_downloaded",
+          "contentSize": "4.7 GB",
+          "encodingFormat": "application/octet-stream",
+          "sha256": "343195cf850a8eb2768e897733f6ae2f078c9899854ff51002bfa747cb215ca1"
+        }
+      ]
+    }
+  ]
+}
